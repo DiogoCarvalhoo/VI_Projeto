@@ -185,9 +185,7 @@ text.source {
                        1991: [ 9867147, 544309, 646161, 781933, 845588, 765248, 726628, 694606, 661076, 634519, 569623, 559346, 562041, 533325, 470049, 344747, 527948],
                        2001: [ 10356117, 539491, 537521, 579590, 688686, 790901, 814661, 761457, 770781, 728518, 686134, 642516, 571452, 550916, 538165, 453962, 701366],
                        2011: [ 10562178, 482647, 525087, 564595, 565250, 582065, 656076, 773567, 824683, 773098, 770294, 722360, 677651, 634741, 551701, 496438, 961925]}
-        
-        console.log(dataset1[1960])
-            
+                    
         // Esperança media de vida ao longo dos anos
         let dataset2 =  {
             1970: 67.1,
@@ -254,6 +252,8 @@ text.source {
             2021: [4917794, 5430098]
         }
         
+
+
         //Dimensions
         margin = 80;
         width = 700 - 2 * margin;
@@ -277,142 +277,172 @@ text.source {
                        {type:"70-74", value:206298}, 
                        {type:"+75", value:238121}]
 
-        svg = d3.select('svg');
-        const svgContainer = d3.select('#container');
 
-        const chart = svg.append('g').attr('transform', `translate(${margin}, ${margin})`);
+        
+        faixa_etaria_graph(dataset, margin, width, height)
+          
 
-        console.log(dataset)
-        //let labels = ["0-04", "05-09", "10-14",	"15-19", "20-24", "25-29", "30-34",	"35-39", "40-44", "45-49", "50-54",	"55-59", "60-64", "65-69", "70-74", "+75"]
-        //Eixo X
-        const xScale = d3.scaleBand()
-        .range([0, width])
-        .domain(dataset.map((s) => s.type))
-        .padding(0.1)
         
-        
-        /*
-        Determinar o maior valor para o eixo dos Y
-        */
-        var biggest_value=0;
-        for (i in dataset){
-            if (+dataset[i].value > biggest_value){
-                biggest_value = dataset[i].value;
-            }
-        }
-        
-        //Eixo Y
-        const yScale = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, biggest_value]);
-        
-        const makeYLines = () => d3.axisLeft().scale(yScale)
-        
-        /*
-        Construir o gráfico
-        */
-        chart.append('g')
-        .attr('transform', `translate(0, ${height})`)
-        .call(d3.axisBottom(xScale))
-        .selectAll(".tick text")  
-        .call(wrap, xScale.bandwidth());
-    
-        chart.append('g')
-            .call(d3.axisLeft(yScale));
 
-            chart.append('g')
-            .attr('class', 'grid')
-            .call(makeYLines()
-                .tickSize(-width, 0, 0)
-                .tickFormat('')
-            )
-    
-        const barGroups = chart.selectAll()
-            .data(dataset)
-            .enter()
-            .append('g')
-    
-        barGroups.append('rect')
-            .attr('class', 'bar')
-            .attr('x', (g) => xScale(g.type))
-            .attr('y', (g) => yScale(g.value))
-            .attr('height', (g) => height - yScale(g.value))
-            .attr('width', xScale.bandwidth())
-            .on('mouseenter', function (actual, i) {
-              d3.select(this)
-                  .attr('opacity', 0)
-                  
-              d3.select(this)
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function faixa_etaria_graph(dataset, margin, width, height) {
+          svg = d3.select('svg');
+          const svgContainer = d3.select('#container');
+
+          const chart = svg.append('g').attr('transform', `translate(${margin}, ${margin})`);
+
+          console.log(dataset)
+          //let labels = ["0-04", "05-09", "10-14",	"15-19", "20-24", "25-29", "30-34",	"35-39", "40-44", "45-49", "50-54",	"55-59", "60-64", "65-69", "70-74", "+75"]
+          //Eixo X
+          const xScale = d3.scaleBand()
+          .range([0, width])
+          .domain(dataset.map((s) => s.type))
+          .padding(0.1)
+          
+          
+          /*
+          Determinar o maior valor para o eixo dos Y
+          */
+          var biggest_value=0;
+          for (i in dataset){
+              if (+dataset[i].value > biggest_value){
+                  biggest_value = dataset[i].value;
+              }
+          }
+          
+          //Eixo Y
+          const yScale = d3.scaleLinear()
+          .range([height, 0])
+          .domain([0, biggest_value]);
+          
+          const makeYLines = () => d3.axisLeft().scale(yScale)
+          
+          /*
+          Construir o gráfico
+          */
+          chart.append('g')
+          .attr('transform', `translate(0, ${height})`)
+          .call(d3.axisBottom(xScale))
+          .selectAll(".tick text")  
+          .call(wrap, xScale.bandwidth());
+      
+          chart.append('g')
+              .call(d3.axisLeft(yScale));
+
+              chart.append('g')
+              .attr('class', 'grid')
+              .call(makeYLines()
+                  .tickSize(-width, 0, 0)
+                  .tickFormat('')
+              )
+      
+          const barGroups = chart.selectAll()
+              .data(dataset)
+              .enter()
+              .append('g')
+      
+          barGroups.append('rect')
+              .attr('class', 'bar')
+              .attr('x', (g) => xScale(g.type))
+              .attr('y', (g) => yScale(g.value))
+              .attr('height', (g) => height - yScale(g.value))
+              .attr('width', xScale.bandwidth())
+              .on('mouseenter', function (actual, i) {
+                d3.select(this)
+                    .attr('opacity', 0)
+                    
+                d3.select(this)
+                    .transition()
+                    .duration(300)
+                    .attr('opacity', 1)
+                
+                const y = yScale(i.value)
+                
+                // Show line
+                line = chart.append('line')
+                    .attr('id', 'limit')
+                    .attr('x1', 0)
+                    .attr('y1', y)
+                    .attr('x2', width)
+                    .attr('y2', y)
+                
+                // Show bar value
+                barGroups.append('text')
+                    .attr('class', 'value')
+                    .attr('x', (a) => xScale(a.type) )
+                    .attr('y', (a) => yScale(a.value) - 3)
+                    .attr('text-anchor', 'start')
+                    .text((a, idx) => {
+                        return a.type === i.type ? `${a.value}` : '';
+                    })
+              })
+              
+              // On mouse leave, remove the line and the bar value
+              .on('mouseleave', function () {
+                  d3.select(this)
                   .transition()
                   .duration(300)
                   .attr('opacity', 1)
-              
-              const y = yScale(i.value)
-              
-              // Show line
-              line = chart.append('line')
-                  .attr('id', 'limit')
-                  .attr('x1', 0)
-                  .attr('y1', y)
-                  .attr('x2', width)
-                  .attr('y2', y)
-              
-              // Show bar value
-              barGroups.append('text')
-                  .attr('class', 'value')
-                  .attr('x', (a) => xScale(a.type) )
-                  .attr('y', (a) => yScale(a.value) - 3)
-                  .attr('text-anchor', 'start')
-                  .text((a, idx) => {
-                      return a.type === i.type ? `${a.value}` : '';
-                  })
-            })
-            
-            // On mouse leave, remove the line and the bar value
-            .on('mouseleave', function () {
-                d3.select(this)
-                .transition()
-                .duration(300)
-                .attr('opacity', 1)
 
-                chart.selectAll('#limit').remove()
-                chart.selectAll('.value').remove()
-            })
+                  chart.selectAll('#limit').remove()
+                  chart.selectAll('.value').remove()
+              })
+            
           
-        
-        
-        //Título Y
-        svg.append('text')
-            .attr('class', 'label')
-            .attr('x', -(height / 2) - margin)
-            .attr('y', margin / 2.4 - 15)
-            .attr('transform', 'rotate(-90)')
-            .attr('text-anchor', 'middle')
-            .text('Número de pessoas')
-        
-        //Título X
-        svg.append('text')
-            .attr('class', 'label')
-            .attr('x', width / 2 + margin)
-            .attr('y', 560)
-            .attr('text-anchor', 'middle')
-            .text('Faixa etária')
-        
-        //Título
-        svg.append('text')
-            .attr('class', 'title')
-            .attr('x', width / 2 + margin)
-            .attr('y', 40)
-            .attr('text-anchor', 'middle')
-            .text('População por faixa etária')
-        
-        //Source
-        svg.append('text')
-            .attr('class', 'source')
-            .attr('x', width - margin / 2)
-            .attr('y', 800)
-            .attr('text-anchor', 'start')
-            .text('Source: INE, 2020')
+          
+          //Título Y
+          svg.append('text')
+              .attr('class', 'label')
+              .attr('x', -(height / 2) - margin)
+              .attr('y', margin / 2.4 - 15)
+              .attr('transform', 'rotate(-90)')
+              .attr('text-anchor', 'middle')
+              .text('Número de pessoas')
+          
+          //Título X
+          svg.append('text')
+              .attr('class', 'label')
+              .attr('x', width / 2 + margin)
+              .attr('y', 560)
+              .attr('text-anchor', 'middle')
+              .text('Faixa etária')
+          
+          //Título
+          svg.append('text')
+              .attr('class', 'title')
+              .attr('x', width / 2 + margin)
+              .attr('y', 40)
+              .attr('text-anchor', 'middle')
+              .text('População por faixa etária')
+          
+          //Source
+          svg.append('text')
+              .attr('class', 'source')
+              .attr('x', width - margin / 2)
+              .attr('y', 800)
+              .attr('text-anchor', 'start')
+              .text('Source: INE, 2020')
+        }
         
 
         
@@ -422,30 +452,32 @@ text.source {
         Source: http://bl.ocks.org/LGBY4/204b1c74962cbcb33feba263e0fb4ad2
         */
         function wrap(text, width) {
-        text.each(function() {
-            var text = d3.select(this),
-                words = text.text().split(/\s+/).reverse(),
-                word,
-                line = [],
-                lineNumber = 0,
-                lineHeight = 1.1, // ems
-                y = text.attr("y"),
-                dy = parseFloat(text.attr("dy")),
-                tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-            while (word = words.pop()) {
-            line.push(word);
-            tspan.text(line.join(" "));
-            if (tspan.node().getComputedTextLength() > width) {
-                line.pop();
-                tspan.text(line.join(" "));
-                line = [word];
-                tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-            }
-            }
-        });
+          text.each(function() {
+              var text = d3.select(this),
+                  words = text.text().split(/\s+/).reverse(),
+                  word,
+                  line = [],
+                  lineNumber = 0,
+                  lineHeight = 1.1, // ems
+                  y = text.attr("y"),
+                  dy = parseFloat(text.attr("dy")),
+                  tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+              while (word = words.pop()) {
+              line.push(word);
+              tspan.text(line.join(" "));
+              if (tspan.node().getComputedTextLength() > width) {
+                  line.pop();
+                  tspan.text(line.join(" "));
+                  line = [word];
+                  tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+              }
+              }
+          });
         }
     </script>
     
+
+
   </body>
 </html>
 
