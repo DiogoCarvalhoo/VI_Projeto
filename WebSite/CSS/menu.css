@@ -1,0 +1,90 @@
+nav {
+  grid-row: 1 / -1;
+  border-right: 1px solid rgba(234, 237, 240, 0.1);
+}
+
+.sidemenu {
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.logo {
+  gap: 8px;
+  margin-bottom: 64px;
+  display: flex;
+  cursor: pointer;
+}
+
+.logo-img {
+  width: 36px;
+  height: 36px;
+}
+
+.logo-name {
+  color: #E4F9F5;
+  font-weight: 800;
+  font-size: 24px;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.menu {
+  margin-bottom: 48px;
+  width: 100%;
+}
+
+.general {
+  width: 100%;
+}
+
+.sub-menu-title {
+  font-size: 14px;
+  color: #E4F9F5;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.menu-option {
+  text-decoration: none;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #E4F9F5;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  padding: 8px 8px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.menu-option svg {
+  width: 24px;
+  height: 24px;
+  fill: #E4F9F5;
+}
+
+.menu-option:hover {
+  background-color: #11999E;
+  color: #fff;
+}
+
+.option--active {
+  font-weight: 600;
+  color: #fff;
+  border-right: 5px solid #E4F9F5;
+  background-color: #11999E;
+}
+
+.option--active svg {
+  fill: #E4F9F5;
+}
