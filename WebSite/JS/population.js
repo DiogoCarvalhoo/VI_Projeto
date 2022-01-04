@@ -72,7 +72,7 @@ function loadInitialPopulation() {
             .attr("width", width + margin + margin)
             .attr("height", height + margin + margin);
     
-    var chart = svg_dot_graph.append('g').attr("transform",
+    var dot_graph_chart = svg_dot_graph.append('g').attr("transform",
             "translate(" + margin + "," + margin + ")");
 
     // X axis
@@ -87,7 +87,7 @@ function loadInitialPopulation() {
         .range([ height, 0]);
 
     // Initialize Dot_Graph
-    initialize_dot_graph(dot_graph_data, svg_dot_graph, chart, dot_graph_xScale, dot_graph_yScale)
+    initialize_dot_graph(dot_graph_data, svg_dot_graph, dot_graph_chart, dot_graph_xScale, dot_graph_yScale)
 
     // Create Tiles 
     loadTitles(svg_dot_graph, 'Esperança Média de Vida', 'Anos', 'Esperança Média de Vida', 'Source: INE, 2020')
@@ -96,7 +96,61 @@ function loadInitialPopulation() {
     /*
         End of Dot Graph Creation Section
     */
+
+
+
+
+
+    /*
+        Pie Chart Creation Section
+    */
+
+
+    // Get selected year
+    selected_piechart_year = document.getElementById("gender_population_year_selection").value;
+
+    // Get the data from the selected year
+    pie_chart_data = gender_population_data[selected_piechart_year];
+
+    const radius = Math.min(width, height) / 2 ;
+
+
+    svg_pie_chart = d3.select("#gender_population_graph")
+          .attr("width", width + margin + margin)
+          .attr("height", height + margin + margin);
+    
+    const pie_chart_chart = svg_pie_chart.append('g').attr("transform", `translate(${margin}, ${margin})`);
+
+    const color = d3.scaleOrdinal()
+        .domain(["M", "F"])
+        .range(d3.schemeDark2);
+
+    var arc = d3.arc()
+        .outerRadius(radius)
+        .innerRadius(50);
+
+    var pie = d3.pie()
+        .value(function(d) { return d[1] == undefined ? undefined: d[1].value; })
+        .sort(function(a, b) { return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
+
+
+    // Add event when user changes the selected year
+    d3.select('#gender_population_year_selection')
+        .on('change', function() {
+        year = this.value;
+        new_pie_chart_data = gender_population_data[year];
+        updatePieChart(new_pie_chart_data, svg_pie_chart, pie, arc, color);
+    });
+
+    // Initialize Pie Chart
+    updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color)
+
+    // Create Tiles 
+    loadTitles( svg_pie_chart, "", "", "População por Género", "Source: INE, 2020")
 }
+
+
+
 
 
 // Function to create histogram title, x_axis_title, y_axis_title and source text
@@ -238,7 +292,7 @@ function updateHistogram(data,  xScale, xAxis, yScale, yAxis) {
 function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_graph_yScale) {
 
     // create a tooltip
-    var Tooltip = d3.select("#container2")
+    var dot_graph_Tooltip = d3.select("#container2")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -302,7 +356,7 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
                 .attr('x2', width)
                 .attr('y2', dot_graph_yScale(i.value))
             
-            Tooltip
+            dot_graph_Tooltip
                 .style("opacity", 1)
             d3.select(this)
                 .style("stroke", "black")
@@ -311,10 +365,10 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
             })
 
         .on('mousemove', function(mouse, d) {
-            Tooltip
+            dot_graph_Tooltip
                 .html("Ano: " + d.year + "<br>Valor: " + d.value)
-                .style("left", (d3.pointer(mouse)[0]+285) + "px")
-                .style("top", (d3.pointer(mouse)[1]+410) + "px")
+                .style("left", (d3.pointer(mouse)[0]+490) + "px")
+                .style("top", (d3.pointer(mouse)[1]+430) + "px")
                 .style("color", "black")
             })
         
@@ -325,7 +379,7 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
             svg_dot_graph.selectAll('#limit').remove()
             svg_dot_graph.selectAll('.value').remove()
 
-            Tooltip
+            dot_graph_Tooltip
             .style("opacity", 0)
             d3.select(this)
             .style("stroke", "none")
@@ -349,4 +403,138 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
 
 /*
     End of Dot Graph Related Functions
+*/
+
+
+
+
+
+
+
+
+/*
+    Pie Chart Related Functions
+*/
+
+// Function to initialize pie chart
+async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color) {
+
+    // create a tooltip
+    var piechart_Tooltip = d3.select("#container3")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+
+    const data_ready = pie(Object.entries(pie_chart_data))
+
+    svg_pie_chart.selectAll(".arc").remove()
+    svg_pie_chart.selectAll("path").remove()
+    svg_pie_chart.selectAll("text.percentage").remove()
+    svg_pie_chart.selectAll(".legend").remove()
+
+    var g = svg_pie_chart.selectAll(".arc")
+        .data(data_ready)
+        .enter().append("g");    
+
+    g.append("path")
+        .attr("d", arc)
+        .attr("transform", "translate(" + (width/2+margin) + "," + (height/2+margin) + ")")
+        .style("fill", function(d,i) {
+            return color(d.data[0]);
+        })
+        .attr("stroke", "white")
+        .style("stroke-width", "2px")
+        .style("opacity", 1)
+
+        .on('mouseenter', function (actual, i) {
+
+            piechart_Tooltip
+            .style("opacity", 1)
+            d3.select(this)
+            .style("stroke", "black")
+            .style("stroke-width", "4px")
+            .style("opacity", 1)
+            
+        })
+
+        .on('mousemove', function(mouse, d) {
+            piechart_Tooltip
+            .html(d.data[0] == "M" ? "Género: Masculino" + "<br>Valor: " + d.value : "Género: Feminino" + "<br>Valor: " + d.value)
+            .style("left", (d3.pointer(mouse)[0]+730) + "px")
+            .style("top", (d3.pointer(mouse)[1]+1000) + "px")
+            .style("color", "black")
+        })
+
+        .on('mouseleave', function () {
+            piechart_Tooltip
+                .style("opacity", 0)
+            d3.select(this)
+                .style("stroke", "white")
+                .style("stroke-width", "2px")
+                .style("opacity", 1)
+        })
+
+        .transition().duration(2000)
+        .attrTween('d', function(d) {
+            var i = d3.interpolate(d.startAngle+0.1, d.endAngle);
+            return function(t) {
+                d.endAngle = i(t); 
+                return arc(d)
+                }
+            })
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    g.append("text")
+        .attr("class", "percentage")
+        .attr("transform", function(d, i) {
+
+            var _d = arc.centroid(d);
+            _d[0] = _d[0] + 350;	//multiply by a constant factor
+            _d[1] = _d[1] + 200;	//multiply by a constant factor
+            return "translate(" + _d + ")";
+        })
+        .attr("dy", ".50em")
+        .style("text-anchor", "middle")
+        .text(function(d) {
+            if(d.data[1].percentage < 8) {
+            return '';
+            }
+            return d.data[1].percentage + '%';
+        });
+
+
+    // again rebind for legend
+    var legendG = svg_pie_chart.selectAll(".legend") // note appending it to mySvg and not svg to make positioning easier
+        .data(pie(data_ready))
+        .enter().append("g")
+        .attr("transform", function(d,i){
+            return "translate(" + (width - margin/2) + "," + (i * 15 + height) + ")"; // place each legend on the right and bump each one down 15 pixels
+        })
+        .attr("class", "legend");   
+
+    legendG.append("rect") // make a matching color rect
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("fill", function(d, i) {
+            return color(d.data.data[0]);
+        });
+
+    legendG.append("text") // add the text
+        .text(function(d){
+            return d.data.data[0] == "M" ? "Masculino" : "Feminino";
+        })
+        .style("font-size", 12)
+        .attr("y", 10)
+        .attr("x", 11);
+
+
+}
+/*
+    End of Pie Chart Related Functions
 */
