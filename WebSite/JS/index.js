@@ -7,7 +7,10 @@ function main(page) {
     switch (page) {
       case "home":
         loadInitialCarousel();
-  
+      
+      case "population":
+        loadInitialPopulation();
+
       default:
         break;
     }
