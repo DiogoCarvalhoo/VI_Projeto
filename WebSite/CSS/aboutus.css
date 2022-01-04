@@ -171,31 +171,78 @@ svg {
 
 
 .contact-flex{
-    display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 10%;
+    height: 400px;
+
 }
 
 .contact-logo{
     width: 20%;
     max-width: 350px;
+    float: left;
 }
 
 .contact-logo img{
     width: 100%;
 }
 
+.contact-description {
+    margin-left: 35px;
+
+}
+
 .contact-description ul li{
     list-style: none;
     color: black;
+
 }
 
 
 .contact-description img{
-    width: 50px;
+    width: 30px;
     height: auto;
     margin-right: 10px;
 }
+
+
+
+
+
+
+.contact-me {
+    margin: 50px auto;
+    width: 80%;
+    line-height: 2;
+}
+
+.contact-me-paragraph {
+    margin-bottom: 30px;
+}
+
+.button-contact {
+    background: #11cdd4;
+    background-image: -webkit-linear-gradient(top, #11cdd4, #11999e);
+    background-image: -moz-linear-gradient(top, #11cdd4, #11999e);
+    background-image: -ms-linear-gradient(top, #11cdd4, #11999e);
+    background-image: -o-linear-gradient(top, #11cdd4, #11999e);
+    background-image: linear-gradient(to bottom, #11cdd4, #11999e);
+    -webkit-border-radius: 8;
+    -moz-border-radius: 8;
+    border-radius: 8px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+ }
+
+ .button-contact:hover {
+     background: #30e3cb;
+     background-image: -webkit-linear-gradient(top, #30e3cb, #2bc4ad);
+     background-image: -moz-linear-gradient(top, #30e3cb, #2bc4ad);
+     background-image: -ms-linear-gradient(top, #30e3cb, #2bc4ad);
+     background-image: -o-linear-gradient(top, #30e3cb, #2bc4ad);
+     background-image: linear-gradient(to bottom, #30e3cb, #2bc4ad);
+     text-decoration: none;
+ }

@@ -1,0 +1,76 @@
+.bar {
+    fill: lightskyblue;
+}
+
+.year_select {
+    float: right;
+    width: 20%;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 2%;
+    margin-right: 2%;
+    text-align: center;
+}
+
+.year_select option {
+    font-weight: 700;
+}
+
+text {
+    font-size: 10px;
+    width: 10px;
+    fill: white;
+}
+
+text.title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 200px;
+}
+
+text.label {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+text.value {
+
+}
+
+text.source {
+
+}
+
+text.percentage {
+    
+}
+
+
+
+
+line {
+    stroke: gray;
+}
+
+line#limit {
+    stroke: black;
+    stroke-width: 3;
+    stroke-dasharray: 3 6;
+}
+
+.grid path {
+    stroke-width: 0;
+}
+
+.grid .tick line {
+    stroke: #9FAAAE;
+    stroke-opacity: 1;
+}
+
+
+.graph {
+    margin-top: 5%;
+    box-shadow: 200px 300px 1200px rgb(164, 22, 26, 0.15),
+    -200px 0px 5000px rgba(0, 68, 255, 0.3), rgba(0, 0, 0, 0.19) 0px 10px 20px,
+    rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}

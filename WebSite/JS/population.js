@@ -20,9 +20,9 @@ function loadInitialPopulation() {
     // Histogram construction
     svg_histogram = d3.select('#age_population_year_graph');
 
-    histogram = svg_histogram.append("svg")
-                .attr("width", width + 2 * margin)
-                .attr("height", height + 2 * margin)
+    histogram = svg_histogram
+                .attr("width", width + margin + margin)
+                .attr("height", height + margin + margin)
                 .append("g")
                 .attr("transform", "translate(" + margin + "," + margin + ")");
 
@@ -48,7 +48,7 @@ function loadInitialPopulation() {
     });
 
     // Create Tiles 
-    loadTitles( svg_histogram, "Número de Pessoas", "Faixa Etária", "População por Faixa Etária", "Source: INE, 2020")
+    loadTitles( svg_histogram, "Número de Pessoas", "Faixa Etária", "População por Faixa Etária", "Fonte: PORDATA, 2021")
     
     // Initialize Histogram
     updateHistogram(histogram_data, histogram_xScale, histogram_xAxis, histogram_yScale, histogram_yAxis)
@@ -90,7 +90,7 @@ function loadInitialPopulation() {
     initialize_dot_graph(dot_graph_data, svg_dot_graph, dot_graph_chart, dot_graph_xScale, dot_graph_yScale)
 
     // Create Tiles 
-    loadTitles(svg_dot_graph, 'Esperança Média de Vida', 'Anos', 'Esperança Média de Vida', 'Source: INE, 2020')
+    loadTitles(svg_dot_graph, 'Esperança Média de Vida', 'Anos', 'Esperança Média de Vida', "Fonte: PORDATA, 2021")
 
 
     /*
@@ -105,19 +105,18 @@ function loadInitialPopulation() {
         Pie Chart Creation Section
     */
 
-
-    // Get selected year
-    selected_piechart_year = document.getElementById("gender_population_year_selection").value;
-
-    // Get the data from the selected year
-    pie_chart_data = gender_population_data[selected_piechart_year];
-
     const radius = Math.min(width, height) / 2 ;
 
 
     svg_pie_chart = d3.select("#gender_population_graph")
           .attr("width", width + margin + margin)
           .attr("height", height + margin + margin);
+  
+    // Get selected year
+    selected_piechart_year = document.getElementById("gender_population_year_selection").value;
+
+    // Get the data from the selected year
+    pie_chart_data = gender_population_data[selected_piechart_year];
     
     const pie_chart_chart = svg_pie_chart.append('g').attr("transform", `translate(${margin}, ${margin})`);
 
@@ -146,7 +145,7 @@ function loadInitialPopulation() {
     updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color)
 
     // Create Tiles 
-    loadTitles( svg_pie_chart, "", "", "População por Género", "Source: INE, 2020")
+    loadTitles( svg_pie_chart, "", "", "População por Género", "Fonte: PORDATA, 2021")
 }
 
 
@@ -169,7 +168,7 @@ function loadTitles(svg, titleY, titleX, title, source) {
     svg.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + margin)
-        .attr('y', 360)
+        .attr('y', titleX == "Anos" ? 370 : 360)
         .attr('text-anchor', 'middle')
         .text(titleX)
 
@@ -368,7 +367,7 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
             dot_graph_Tooltip
                 .html("Ano: " + d.year + "<br>Valor: " + d.value)
                 .style("left", (d3.pointer(mouse)[0]+490) + "px")
-                .style("top", (d3.pointer(mouse)[1]+430) + "px")
+                .style("top", (d3.pointer(mouse)[1]+520) + "px")
                 .style("color", "black")
             })
         
@@ -465,8 +464,8 @@ async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color) {
         .on('mousemove', function(mouse, d) {
             piechart_Tooltip
             .html(d.data[0] == "M" ? "Género: Masculino" + "<br>Valor: " + d.value : "Género: Feminino" + "<br>Valor: " + d.value)
-            .style("left", (d3.pointer(mouse)[0]+730) + "px")
-            .style("top", (d3.pointer(mouse)[1]+1000) + "px")
+            .style("left", (d3.pointer(mouse)[0]+755) + "px")
+            .style("top", (d3.pointer(mouse)[1]+1100) + "px")
             .style("color", "black")
         })
 
