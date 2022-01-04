@@ -163,7 +163,7 @@ text.source {
                 <div class="row">
                   <div class='layout' style="text-align: center;">
                     <div id='container2' style="height: 400px; margin: auto; ">
-                        <svg id="svg2" style="width: 100%; height: 100%;"></svg>
+                        <svg id="esperanca_media_vida_graph" style="width: 100%; height: 100%;"></svg>
                     </div>
                   </div>
                 </div>
@@ -208,65 +208,7 @@ text.source {
         width = 700 - 2 * margin;
         height = 400 - 2 * margin;
 
-
-
-
-
-
-        dataset =  [
-            {year: "1970", value: 67.1},
-            {year: "1971", value: 66.8},
-            {year: "1972", value: 68.5},
-            {year: "1973", value: 67.6},
-            {year: "1974", value: 68.2},
-            {year: "1975", value: 68.4},
-            {year: "1976", value: 69.0},
-            {year: "1977", value: 70.1},
-            {year: "1978", value: 70.5},
-            {year: "1979", value: 71.0},
-            {year: "1980", value: 71.1},
-            {year: "1981", value: 71.7},
-            {year: "1982", value: 72.5},
-            {year: "1983", value: 72.4},
-            {year: "1984", value: 72.6},
-            {year: "1985", value: 72.9},
-            {year: "1986", value: 73.4},
-            {year: "1987", value: 73.8},
-            {year: "1988", value: 73.8},
-            {year: "1989", value: 74.4},
-            {year: "1990", value: 74.1},
-            {year: "1991", value: 74.1},
-            {year: "1992", value: 74.4},
-            {year: "1993", value: 74.6},
-            {year: "1994", value: 75.0},
-            {year: "1995", value: 75.4},
-            {year: "1996", value: 75.3},
-            {year: "1997", value: 75.5},
-            {year: "1998", value: 75.8},
-            {year: "1999", value: 76.0},
-            {year: "2000", value: 76.4},
-            {year: "2001", value: 76.7},
-            {year: "2002", value: 77.0},
-            {year: "2003", value: 77.4},
-            {year: "2004", value: 77.7},
-            {year: "2005", value: 78.2},
-            {year: "2006", value: 78.5},
-            {year: "2007", value: 78.7},
-            {year: "2008", value: 78.9},
-            {year: "2009", value: 79.3},
-            {year: "2010", value: 79.6},
-            {year: "2011", value: 79.8},
-            {year: "2012", value: 80.0},
-            {year: "2013", value: 80.2},
-            {year: "2014", value: 80.4},
-            {year: "2015", value: 80.6},
-            {year: "2016", value: 80.8},
-            {year: "2017", value: 80.8},
-            {year: "2018", value: 80.9},
-            {year: "2019", value: 81.1}
-        ]
-
-        esperanca_media_vida_graph(dataset, margin, width, height)
+        
         
 
 
@@ -281,7 +223,6 @@ text.source {
           {'year': 2021, 'results': {'M': {'value': 4917794, 'percentage': 47.5}, 'F': {'value': 5430098, 'percentage': 52.5} }}
         ]
 
-        //genero_graph(dataset, margin, width, height)
         
         // create a tooltip
         var Tooltip = d3.select("#container3")
@@ -363,10 +304,8 @@ text.source {
           .attr("transform", function(d, i) {
 
             var _d = arc.centroid(d);
-            console.log(_d)
             _d[0] = _d[0] + 350;	//multiply by a constant factor
             _d[1] = _d[1] + 200;	//multiply by a constant factor
-            console.log(_d)
             return "translate(" + _d + ")";
           })
           .attr("dy", ".50em")
@@ -420,178 +359,6 @@ text.source {
               .attr('text-anchor', 'start')
               .text('Source: INE, 2020')
 
-
-
-
-
-        function esperanca_media_vida_graph(dataset, margin, width, height) {
-
-          // create a tooltip
-          var Tooltip = d3.select("#container2")
-            .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "5px")
-            .style("padding", "5px")
-
-
-          svg2 = d3.select("#svg2")
-                    .attr("width", width + margin + margin)
-                    .attr("height", height + margin + margin);
-          const chart = svg2.append('g').attr("transform",
-                    "translate(" + margin + "," + margin + ")");
-
-          // X axis
-          var x = d3.scaleBand()
-            .range([ 0, width ])
-            .domain(dataset.map(function(d) { return d.year; }))
-            .padding(0.5);
-            
-          chart.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
-            .selectAll("text")
-              .attr("opacity", function(d) { return d % 2 == 0 ? 1 : 0 })
-              .attr("transform", "translate(-10,0)rotate(-45)")
-              .style("text-anchor", "end");
-              
-
-
-          // Add Y axis
-          var y = d3.scaleLinear()
-            .domain([0, 100])
-            .range([ height, 0]);
-          chart.append("g")
-            .call(d3.axisLeft(y));
-
-          // Lines
-          chart.selectAll("myline")
-            .data(dataset)
-            .enter()
-            .append("line")
-              .attr("x1", function(d) { return x(d.year); })
-              .attr("x2", function(d) { return x(d.year); })
-              .attr("y1", y(0))
-              .attr("y2", y(0))
-              .attr("stroke", "")
-              .attr("opacity", function(d) { return d.year % 2 == 0 ? 1 : 0 })
-
-
-          const circleGroups = chart.selectAll()
-              .data(dataset)
-              .enter()
-              .append('g')
-              
-          // Circles
-          circleGroups
-            .append("circle")
-              .attr("cx", function(d) { return x(d.year); })
-              .attr("cy", y(0))
-              .attr("r", "4")
-              .style("fill", "#69b3a2")
-              .attr("stroke", "none")
-
-
-            
-              .on('mouseenter', function (actual, i) {
-                d3.select(this)
-                    .attr('opacity', 0)
-                    
-                d3.select(this)
-                    .transition()
-                    .duration(300)
-                    .attr('opacity', 1)
-                
-                // Show line
-                line = chart.append('line')
-                    .attr('id', 'limit')
-                    .attr('x1', 0)
-                    .attr('y1', y(i.value))
-                    .attr('x2', width)
-                    .attr('y2', y(i.value))
-                
-                Tooltip
-                  .style("opacity", 1)
-                d3.select(this)
-                  .style("stroke", "black")
-                  .style("opacity", 1)
-                
-              })
-
-              .on('mousemove', function(mouse, d) {
-                Tooltip
-                  .html("Ano: " + d.year + "<br>Valor: " + d.value)
-                    .style("left", (d3.pointer(mouse)[0]+285) + "px")
-                    .style("top", (d3.pointer(mouse)[1]+410) + "px")
-                    .style("color", "black")
-              })
-              
-              // On mouse leave, remove the line and the bar value
-              .on('mouseleave', function () {
-                  d3.select(this)
-
-                  svg2.selectAll('#limit').remove()
-                  svg2.selectAll('.value').remove()
-
-                  Tooltip
-                    .style("opacity", 0)
-                  d3.select(this)
-                    .style("stroke", "none")
-                    .style("opacity", 1)
-              })
-
-            
-          // Change the X coordinates of line and circle
-          chart.selectAll("circle")
-            .transition("initialCircles")
-            .duration(2000)
-            .attr("cy", function(d) { return y(d.value); })
-
-
-          chart.selectAll("line")
-            .transition("initialLines")
-            .duration(2000)
-            .attr("y1", function(d) { return y(d.value); })
-
-          //Título Y
-          svg2.append('text')
-              .attr('class', 'label')
-              .attr('x', -(height / 2) - margin)
-              .attr('y', margin / 2.4 - 15)
-              .attr('transform', 'rotate(-90)')
-              .attr('text-anchor', 'middle')
-              .text('Esperança Média de Vida')
-          
-          //Título X
-          svg2.append('text')
-              .attr('class', 'label')
-              .attr('x', width / 2 + margin)
-              .attr('y', 370)
-              .attr('text-anchor', 'middle')
-              .text('Anos')
-          
-          //Título
-          svg2.append('text')
-              .attr('class', 'title')
-              .attr('x',  width / 2 + margin)
-              .attr('y', 40)
-              .attr('text-anchor', 'middle')
-              .text('Esperança Média de Vida')
-          
-          //Source
-          svg2.append('text')
-              .attr('class', 'source')
-              .attr('x', width - margin / 2)
-              .attr('y', 380)
-              .attr('text-anchor', 'start')
-              .text('Source: INE, 2020')
-
-        
-
-        }
 
 
         

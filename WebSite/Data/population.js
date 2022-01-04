@@ -96,3 +96,68 @@ var age_population_data = { 1960: [{type:"0-04", value:901410},
                                     {type:"+75", value:961925}]}  
 
 
+
+
+var esperanca_media_vida_data =  [
+        {year: "1970", value: 67.1},
+        {year: "1971", value: 66.8},
+        {year: "1972", value: 68.5},
+        {year: "1973", value: 67.6},
+        {year: "1974", value: 68.2},
+        {year: "1975", value: 68.4},
+        {year: "1976", value: 69.0},
+        {year: "1977", value: 70.1},
+        {year: "1978", value: 70.5},
+        {year: "1979", value: 71.0},
+        {year: "1980", value: 71.1},
+        {year: "1981", value: 71.7},
+        {year: "1982", value: 72.5},
+        {year: "1983", value: 72.4},
+        {year: "1984", value: 72.6},
+        {year: "1985", value: 72.9},
+        {year: "1986", value: 73.4},
+        {year: "1987", value: 73.8},
+        {year: "1988", value: 73.8},
+        {year: "1989", value: 74.4},
+        {year: "1990", value: 74.1},
+        {year: "1991", value: 74.1},
+        {year: "1992", value: 74.4},
+        {year: "1993", value: 74.6},
+        {year: "1994", value: 75.0},
+        {year: "1995", value: 75.4},
+        {year: "1996", value: 75.3},
+        {year: "1997", value: 75.5},
+        {year: "1998", value: 75.8},
+        {year: "1999", value: 76.0},
+        {year: "2000", value: 76.4},
+        {year: "2001", value: 76.7},
+        {year: "2002", value: 77.0},
+        {year: "2003", value: 77.4},
+        {year: "2004", value: 77.7},
+        {year: "2005", value: 78.2},
+        {year: "2006", value: 78.5},
+        {year: "2007", value: 78.7},
+        {year: "2008", value: 78.9},
+        {year: "2009", value: 79.3},
+        {year: "2010", value: 79.6},
+        {year: "2011", value: 79.8},
+        {year: "2012", value: 80.0},
+        {year: "2013", value: 80.2},
+        {year: "2014", value: 80.4},
+        {year: "2015", value: 80.6},
+        {year: "2016", value: 80.8},
+        {year: "2017", value: 80.8},
+        {year: "2018", value: 80.9},
+        {year: "2019", value: 81.1}
+]
+
+
+var gender_population_data = [
+        {'year': 1960, 'results': {'M': {'value': 4254416, 'percentage': 47.8}, 'F': {'value': 4634976, 'percentage': 52.2} }},
+        {'year': 1970, 'results': {'M': {'value': 4109360, 'percentage': 47.4}, 'F': {'value': 4553892, 'percentage': 52.6} }},
+        {'year': 1981, 'results': {'M': {'value': 4737715, 'percentage': 48.2}, 'F': {'value': 5095299, 'percentage': 51.8} }},
+        {'year': 1991, 'results': {'M': {'value': 4756775, 'percentage': 48.2}, 'F': {'value': 5110372, 'percentage': 51.8} }},
+        {'year': 2001, 'results': {'M': {'value': 5000141, 'percentage': 48.3}, 'F': {'value': 5355976, 'percentage': 51.7} }},
+        {'year': 2011, 'results': {'M': {'value': 5046600, 'percentage': 47.8}, 'F': {'value': 5515578, 'percentage': 52.2} }},
+        {'year': 2021, 'results': {'M': {'value': 4917794, 'percentage': 47.5}, 'F': {'value': 5430098, 'percentage': 52.5} }}
+      ]

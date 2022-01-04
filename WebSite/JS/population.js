@@ -1,5 +1,12 @@
 function loadInitialPopulation() {
 
+
+    // Graphs Dimensions
+    margin = 80;
+    width = 700 - 2 * margin;
+    height = 400 - 2 * margin;
+
+
     /*
         Histogram Creation Section
     */
@@ -9,11 +16,6 @@ function loadInitialPopulation() {
     
     // Get the data from the selected year
     histogram_data = age_population_data[selected_histogram_year];
-
-    // Dimensions
-    margin = 80;
-    width = 700 - 2 * margin;
-    height = 400 - 2 * margin;
 
     // Histogram construction
     svg_histogram = d3.select('#age_population_year_graph');
@@ -53,6 +55,46 @@ function loadInitialPopulation() {
 
     /*
         End of Histogram Creation Section
+    */
+
+
+
+
+    /*
+        Dot Graph Creation Section
+    */
+
+    // Get the data
+    dot_graph_data = esperanca_media_vida_data;
+
+    // Dot Graph Construction
+    svg_dot_graph = d3.select("#esperanca_media_vida_graph")
+            .attr("width", width + margin + margin)
+            .attr("height", height + margin + margin);
+    
+    var chart = svg_dot_graph.append('g').attr("transform",
+            "translate(" + margin + "," + margin + ")");
+
+    // X axis
+    const dot_graph_xScale = d3.scaleBand()
+        .range([ 0, width ])
+        .domain(dot_graph_data.map(function(d) { return d.year; }))
+        .padding(0.5);
+    
+    // Y axis
+    const dot_graph_yScale = d3.scaleLinear()
+        .domain([0, 100])
+        .range([ height, 0]);
+
+    // Initialize Dot_Graph
+    initialize_dot_graph(dot_graph_data, svg_dot_graph, chart, dot_graph_xScale, dot_graph_yScale)
+
+    // Create Tiles 
+    loadTitles(svg_dot_graph, 'Esperança Média de Vida', 'Anos', 'Esperança Média de Vida', 'Source: INE, 2020')
+
+
+    /*
+        End of Dot Graph Creation Section
     */
 }
 
@@ -95,6 +137,11 @@ function loadTitles(svg, titleY, titleX, title, source) {
 
 }
 
+
+
+/*
+    Histogram Related Functions
+*/
 
 // Function to update histogram
 function updateHistogram(data,  xScale, xAxis, yScale, yAxis) {
@@ -178,5 +225,128 @@ function updateHistogram(data,  xScale, xAxis, yScale, yAxis) {
 }
 
 /*
-    End of Histogram Section
+    End of Histogram Related Functions
+*/
+
+
+
+/*
+    Dot Graph Related Functions
+*/
+
+// Function to initialize dot graph
+function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_graph_yScale) {
+
+    // create a tooltip
+    var Tooltip = d3.select("#container2")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+    
+    chart.append("g")
+        .call(d3.axisLeft(dot_graph_yScale));
+        
+    chart.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(dot_graph_xScale))
+        .selectAll("text")
+            .attr("opacity", function(d) { return d % 2 == 0 ? 1 : 0 })
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
+            
+    // Lines
+    chart.selectAll("myline")
+        .data(dot_graph_data)
+        .enter()
+        .append("line")
+            .attr("x1", function(d) { return dot_graph_xScale(d.year); })
+            .attr("x2", function(d) { return dot_graph_xScale(d.year); })
+            .attr("y1", dot_graph_yScale(0))
+            .attr("y2", dot_graph_yScale(0))
+            .attr("stroke", "")
+            .attr("opacity", function(d) { return d.year % 2 == 0 ? 1 : 0 })
+
+
+    const circleGroups = chart.selectAll()
+        .data(dot_graph_data)
+        .enter()
+        .append('g')
+            
+    // Circles
+    circleGroups.append("circle")
+        .attr("cx", function(d) { return dot_graph_xScale(d.year); })
+        .attr("cy", dot_graph_yScale(0))
+        .attr("r", "4")
+        .style("fill", "#69b3a2")
+        .attr("stroke", "none")
+
+        .on('mouseenter', function (actual, i) {
+            d3.select(this)
+                .attr('opacity', 0)
+                
+            d3.select(this)
+                .transition()
+                .duration(300)
+                .attr('opacity', 1)
+            
+            // Show line
+            line = chart.append('line')
+                .attr('id', 'limit')
+                .attr('x1', 0)
+                .attr('y1', dot_graph_yScale(i.value))
+                .attr('x2', width)
+                .attr('y2', dot_graph_yScale(i.value))
+            
+            Tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("opacity", 1)
+        
+            })
+
+        .on('mousemove', function(mouse, d) {
+            Tooltip
+                .html("Ano: " + d.year + "<br>Valor: " + d.value)
+                .style("left", (d3.pointer(mouse)[0]+285) + "px")
+                .style("top", (d3.pointer(mouse)[1]+410) + "px")
+                .style("color", "black")
+            })
+        
+        // On mouse leave, remove the line and the bar value
+        .on('mouseleave', function () {
+            d3.select(this)
+
+            svg_dot_graph.selectAll('#limit').remove()
+            svg_dot_graph.selectAll('.value').remove()
+
+            Tooltip
+            .style("opacity", 0)
+            d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 1)
+        })
+
+            
+    // Change the X coordinates of line and circle
+    chart.selectAll("circle")
+        .transition("initialCircles")
+        .duration(2000)
+        .attr("cy", function(d) { return dot_graph_yScale(d.value); })
+
+
+    chart.selectAll("line")
+        .transition("initialLines")
+        .duration(2000)
+        .attr("y1", function(d) { return dot_graph_yScale(d.value); })
+
+}
+
+/*
+    End of Dot Graph Related Functions
 */
