@@ -136,9 +136,19 @@ text.source {
             <div class="col-md-6">
 
                 <div class="row">
+                    
                   <div id='layout' style="text-align: center;">
+                    
                     <div id='container' style="height: 400px; margin: auto; ">
-                        <svg style="width: 100%; height: 100%;"></svg>
+                      <select id="age_population_year_selection" style="width: 20%; font-size: 12px; margin-top: 2%;" class="form-select" aria-label="Default select-sm example">
+                        <option value="1960">1960</option>
+                        <option value="1970">1970</option>
+                        <option value="1981">1981</option>
+                        <option value="1991">1991</option>
+                        <option value="2001">2001</option>
+                        <option selected value="2011">2011</option>
+                      </select>
+                        <svg id="age_population_year_graph" style="width: 100%; height: 100%;"></svg>
                     </div>
                   </div>
                 </div>
@@ -169,319 +179,17 @@ text.source {
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"
     ></script>
-
+    
     <!-- MY JS -->
     <script src="JS/index.js"></script>
     <script src="JS/menu.js"></script>
     <script src="JS/home.js"></script>
-
-    <script type="text/javascript">
-
-      /* Histograma */
-      // População por faixa etária [total  0-04	05-09 10-14	15-19	20-24	25-29	30-34	35-39	40-44	45-49	50-54	55-59	60-64	65-69	70-74	75 ou mais]
-      let dataset1 = {1960: [ 8889392, 901410, 851145, 839400, 747225, 705204, 673194, 637452, 591184, 499411, 510724, 481429, 409026, 334019, 264150, 206298, 238121],
-                       1970: [ 8611125,	789355, 849785,	812710, 730900, 628040,	518735, 533985, 555740, 551385, 513230, 444600, 439750, 410150, 326250, 233720, 272790],
-                       1981: [ 8611125, 789355, 849785, 812710, 730900, 628040, 518735, 533985, 555740, 551385, 513230, 444600, 439750, 410150, 326250, 233720,	272790],
-                       1991: [ 9867147, 544309, 646161, 781933, 845588, 765248, 726628, 694606, 661076, 634519, 569623, 559346, 562041, 533325, 470049, 344747, 527948],
-                       2001: [ 10356117, 539491, 537521, 579590, 688686, 790901, 814661, 761457, 770781, 728518, 686134, 642516, 571452, 550916, 538165, 453962, 701366],
-                       2011: [ 10562178, 482647, 525087, 564595, 565250, 582065, 656076, 773567, 824683, 773098, 770294, 722360, 677651, 634741, 551701, 496438, 961925]}
-                    
-        // Esperança media de vida ao longo dos anos
-        let dataset2 =  {
-            1970: 67.1,
-            1971: 66.8,
-            1972: 68.5,
-            1973: 67.6,
-            1974: 68.2,
-            1975: 68.4,
-            1976: 69.0,
-            1977: 70.1,
-            1978: 70.5,
-            1979: 71.0,
-            1980: 71.1,
-            1981: 71.7,
-            1982: 72.5,
-            1983: 72.4,
-            1984: 72.6,
-            1985: 72.9,
-            1986: 73.4,
-            1987: 73.8,
-            1988: 73.8,
-            1989: 74.4,
-            1990: 74.1,
-            1991: 74.1,
-            1992: 74.4,
-            1993: 74.6,
-            1994: 75.0,
-            1995: 75.4,
-            1996: 75.3,
-            1997: 75.5,
-            1998: 75.8,
-            1999: 76.0,
-            2000: 76.4,
-            2001: 76.7,
-            2002: 77.0,
-            2003: 77.4,
-            2004: 77.7,
-            2005: 78.2,
-            2006: 78.5,
-            2007: 78.7,
-            2008: 78.9,
-            2009: 79.3,
-            2010: 79.6,
-            2011: 79.8,
-            2012: 80.0,
-            2013: 80.2,
-            2014: 80.4,
-            2015: 80.6,
-            2016: 80.8,
-            2017: 80.8,
-            2018: 80.9,
-            2019: 81.1
-        }
-
-
-        // Populaçao por genero [masculino, feminino]
-        let dataset3 = {
-            1960: [4254416, 4634976],
-            1970: [4109360, 4553892],
-            1981: [4737715, 5095299],
-            1991: [4756775, 5110372],
-            2001: [5000141, 5355976],
-            2011: [5046600, 5515578],
-            2021: [4917794, 5430098]
-        }
-        
-
-
-        //Dimensions
-        margin = 80;
-        width = 700 - 2 * margin;
-        height = 400 - 2 * margin;
-
-        //let dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13, 11, 12, 15, 20, 18, 17, 16, 18, 23, 25];
-        dataset = [{type:"0-04", value:901410}, 
-                       {type:"05-09", value:851145}, 
-                       {type:"10-14", value:839400}, 
-                       {type:"15-19", value:747225}, 
-                       {type:"20-24", value:705204}, 
-                       {type:"25-29", value:673194}, 
-                       {type:"30-34", value:637452}, 
-                       {type:"35-39", value:591184}, 
-                       {type:"40-44", value:499411}, 
-                       {type:"45-49", value:510724}, 
-                       {type:"50-54", value:481429}, 
-                       {type:"55-59", value:409026}, 
-                       {type:"60-64", value:334019}, 
-                       {type:"65-69", value:264150}, 
-                       {type:"70-74", value:206298}, 
-                       {type:"+75", value:238121}]
-
-
-        
-        faixa_etaria_graph(dataset, margin, width, height)
-          
-
-        
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        function faixa_etaria_graph(dataset, margin, width, height) {
-          svg = d3.select('svg');
-          const svgContainer = d3.select('#container');
-
-          const chart = svg.append('g').attr('transform', `translate(${margin}, ${margin})`);
-
-          console.log(dataset)
-          //let labels = ["0-04", "05-09", "10-14",	"15-19", "20-24", "25-29", "30-34",	"35-39", "40-44", "45-49", "50-54",	"55-59", "60-64", "65-69", "70-74", "+75"]
-          //Eixo X
-          const xScale = d3.scaleBand()
-          .range([0, width])
-          .domain(dataset.map((s) => s.type))
-          .padding(0.1)
-          
-          
-          /*
-          Determinar o maior valor para o eixo dos Y
-          */
-          var biggest_value=0;
-          for (i in dataset){
-              if (+dataset[i].value > biggest_value){
-                  biggest_value = dataset[i].value;
-              }
-          }
-          
-          //Eixo Y
-          const yScale = d3.scaleLinear()
-          .range([height, 0])
-          .domain([0, biggest_value]);
-          
-          const makeYLines = () => d3.axisLeft().scale(yScale)
-          
-          /*
-          Construir o gráfico
-          */
-          chart.append('g')
-          .attr('transform', `translate(0, ${height})`)
-          .call(d3.axisBottom(xScale))
-          .selectAll(".tick text")  
-          .call(wrap, xScale.bandwidth());
-      
-          chart.append('g')
-              .call(d3.axisLeft(yScale));
-
-              chart.append('g')
-              .attr('class', 'grid')
-              .call(makeYLines()
-                  .tickSize(-width, 0, 0)
-                  .tickFormat('')
-              )
-      
-          const barGroups = chart.selectAll()
-              .data(dataset)
-              .enter()
-              .append('g')
-      
-          barGroups.append('rect')
-              .attr('class', 'bar')
-              .attr('x', (g) => xScale(g.type))
-              .attr('y', (g) => yScale(g.value))
-              .attr('height', (g) => height - yScale(g.value))
-              .attr('width', xScale.bandwidth())
-              .on('mouseenter', function (actual, i) {
-                d3.select(this)
-                    .attr('opacity', 0)
-                    
-                d3.select(this)
-                    .transition()
-                    .duration(300)
-                    .attr('opacity', 1)
-                
-                const y = yScale(i.value)
-                
-                // Show line
-                line = chart.append('line')
-                    .attr('id', 'limit')
-                    .attr('x1', 0)
-                    .attr('y1', y)
-                    .attr('x2', width)
-                    .attr('y2', y)
-                
-                // Show bar value
-                barGroups.append('text')
-                    .attr('class', 'value')
-                    .attr('x', (a) => xScale(a.type) )
-                    .attr('y', (a) => yScale(a.value) - 3)
-                    .attr('text-anchor', 'start')
-                    .text((a, idx) => {
-                        return a.type === i.type ? `${a.value}` : '';
-                    })
-              })
-              
-              // On mouse leave, remove the line and the bar value
-              .on('mouseleave', function () {
-                  d3.select(this)
-                  .transition()
-                  .duration(300)
-                  .attr('opacity', 1)
-
-                  chart.selectAll('#limit').remove()
-                  chart.selectAll('.value').remove()
-              })
-            
-          
-          
-          //Título Y
-          svg.append('text')
-              .attr('class', 'label')
-              .attr('x', -(height / 2) - margin)
-              .attr('y', margin / 2.4 - 15)
-              .attr('transform', 'rotate(-90)')
-              .attr('text-anchor', 'middle')
-              .text('Número de pessoas')
-          
-          //Título X
-          svg.append('text')
-              .attr('class', 'label')
-              .attr('x', width / 2 + margin)
-              .attr('y', 560)
-              .attr('text-anchor', 'middle')
-              .text('Faixa etária')
-          
-          //Título
-          svg.append('text')
-              .attr('class', 'title')
-              .attr('x', width / 2 + margin)
-              .attr('y', 40)
-              .attr('text-anchor', 'middle')
-              .text('População por faixa etária')
-          
-          //Source
-          svg.append('text')
-              .attr('class', 'source')
-              .attr('x', width - margin / 2)
-              .attr('y', 800)
-              .attr('text-anchor', 'start')
-              .text('Source: INE, 2020')
-        }
-        
-
-        
-        
-        /*
-        Função para tornar o texto do eixo dos X legível (para casos em que é muito extenso)
-        Source: http://bl.ocks.org/LGBY4/204b1c74962cbcb33feba263e0fb4ad2
-        */
-        function wrap(text, width) {
-          text.each(function() {
-              var text = d3.select(this),
-                  words = text.text().split(/\s+/).reverse(),
-                  word,
-                  line = [],
-                  lineNumber = 0,
-                  lineHeight = 1.1, // ems
-                  y = text.attr("y"),
-                  dy = parseFloat(text.attr("dy")),
-                  tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-              while (word = words.pop()) {
-              line.push(word);
-              tspan.text(line.join(" "));
-              if (tspan.node().getComputedTextLength() > width) {
-                  line.pop();
-                  tspan.text(line.join(" "));
-                  line = [word];
-                  tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-              }
-              }
-          });
-        }
-    </script>
-    
+    <script type="text/javascript" src="Data/population.js"></script>
+    <script type="text/javascript" src="JS/population.js"></script>
 
 
   </body>
 </html>
-
-
 
 
 
