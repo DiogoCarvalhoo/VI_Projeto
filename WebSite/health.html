@@ -14,8 +14,12 @@
 
     <!-- MY CSS -->
     <link href="CSS/menu.css" rel="stylesheet" />
-    <link href="CSS/home.css" rel="stylesheet" />
+    <link href="CSS/population.css" rel="stylesheet" />
     <link href="CSS/style.css" rel="stylesheet" />
+
+
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v6.js"></script>
 
 
     <title>InfoPortugal</title>
@@ -29,13 +33,37 @@
       -->
       
       <main>
-        
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+                <div class='layout'>
+                  <div id='container1' class="graph">
+                    <p>Acola</p>
+                    <svg id="age_population_year_graph"></svg>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class='layout'>
+                <div id='container1' class="graph">
+                  <svg id="medics_by_speciality_graph"></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class='layout'>
+              <div id='container1' class="graph">
+                <p>Aqui</p>
+                <svg id="age_population_year_graph"></svg>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
       </main>
-
-
-      
 
     </div>
 
@@ -49,5 +77,9 @@
     <script src="JS/index.js"></script>
     <script src="JS/menu.js"></script>
     <script src="JS/home.js"></script>
+
+    <script type="text/javascript" src="Data/health.js"></script>
+    <script type="text/javascript" src="JS/health.js"></script>
+
   </body>
 </html>
