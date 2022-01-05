@@ -161,3 +161,26 @@ var gender_population_data = [
         {'year': 2011, 'results': {'M': {'value': 5046600, 'percentage': 47.8}, 'F': {'value': 5515578, 'percentage': 52.2} }},
         {'year': 2021, 'results': {'M': {'value': 4917794, 'percentage': 47.5}, 'F': {'value': 5430098, 'percentage': 52.5} }}
       ]
+
+
+var population_density = {
+        "Lisboa": 824,
+        "Porto": 742,
+        "Setúbal": 173,
+        "Braga": 313,
+        "Aveiro": 250,
+        "Faro": 94.3,
+        "Leiria": 131,
+        "Santarém": 63,
+        "Coimbra": 104,
+        "Viseu": 70,
+        "Madeira": 334,
+        "Azores": 106,
+        "Viana do Castelo": 103,
+        "Vila Real": 43,
+        "Castelo Branco": 27,
+        "Évora": 21,
+        "Beja": 14,
+        "Guarda": 26,
+        "Bragança": 19,
+        "Portalegre": 17}
