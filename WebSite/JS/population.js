@@ -105,6 +105,7 @@ function loadInitialPopulation() {
     /*
         Portugal Map
     */
+    margin = 60;
     portugal_map()
 
 
@@ -113,7 +114,7 @@ function loadInitialPopulation() {
     /*
         Pie Chart Creation Section
     */
-    margin = 60;
+    
     const radius = Math.min(width, height) / 2 ;
 
 
@@ -489,7 +490,7 @@ function portugal_map() {
             data.features[1].geometry.coordinates = azores_coords.map(elem => {
                 line = elem.map(element => {
                     coords = element.map(values => {
-                        return [ parseFloat(values[0]) / 3 - 2 , parseFloat(values[1]) / 3 + 28 ]
+                        return [ parseFloat(values[0]) / 3 - 1.8 , parseFloat(values[1]) / 3 + 28 ]
                     })
                     return coords
                 })
@@ -501,7 +502,7 @@ function portugal_map() {
             data.features[2].geometry.coordinates = madeira_coords.map(elem => {
                 line = elem.map(element => {
                     coords = element.map(values => {
-                        return [ parseFloat(values[0]) + 5.5 , parseFloat(values[1]) + 6.2]
+                        return [ parseFloat(values[0]) + 5.7 , parseFloat(values[1]) + 6.2]
                     })
                     return coords
                 })
@@ -620,6 +621,14 @@ function portugal_map() {
             .attr('y', 660)
             .attr('text-anchor', 'start')
             .text("> 500")
+
+        // Title
+        svg.append('text')
+            .attr('class', 'title')
+            .attr('x', width / 2 + margin)
+            .attr('y', 40)
+            .attr('text-anchor', 'middle')
+            .text("Densidade Populacional")
 
 }
 /*
