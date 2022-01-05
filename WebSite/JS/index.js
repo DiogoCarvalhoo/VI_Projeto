@@ -13,6 +13,10 @@ function main(page) {
       case "population":
         loadInitialPopulation();
         break;
+      
+      case "health":
+        loadInitialHealth()
+        break;
 
       default:
         break;

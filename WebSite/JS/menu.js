@@ -60,8 +60,6 @@
     var ul_menu = document.createElement("ul");
   
     for (let i in menu_icons) {
-      console.log(i)
-      console.log(page)
       var a_item = document.createElement("a");
       a_item.href = menu_icons[i][2];
       var li_item = document.createElement("li");
