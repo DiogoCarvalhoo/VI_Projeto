@@ -151,7 +151,39 @@ var esperanca_media_vida_data =  [
         {year: "2019", value: 81.1}
 ]
 
+/*
+var gender_population_data = [
+        {'year': 1960, 'results': {'M': {'value': 4254416, 'percentage': 47.8}, 'F': {'value': 4634976, 'percentage': 52.2} }},
+        {'year': 1970, 'results': {'M': {'value': 4109360, 'percentage': 47.4}, 'F': {'value': 4553892, 'percentage': 52.6} }},
+        {'year': 1981, 'results': {'M': {'value': 4737715, 'percentage': 48.2}, 'F': {'value': 5095299, 'percentage': 51.8} }},
+        {'year': 1991, 'results': {'M': {'value': 4756775, 'percentage': 48.2}, 'F': {'value': 5110372, 'percentage': 51.8} }},
+        {'year': 2001, 'results': {'M': {'value': 5000141, 'percentage': 48.3}, 'F': {'value': 5355976, 'percentage': 51.7} }},
+        {'year': 2011, 'results': {'M': {'value': 5046600, 'percentage': 47.8}, 'F': {'value': 5515578, 'percentage': 52.2} }},
+        {'year': 2021, 'results': {'M': {'value': 4917794, 'percentage': 47.5}, 'F': {'value': 5430098, 'percentage': 52.5} }}
+      ]
+*/
 
+var population_density = {
+        "Lisboa": 824,
+        "Porto": 742,
+        "Setúbal": 173,
+        "Braga": 313,
+        "Aveiro": 250,
+        "Faro": 94.3,
+        "Leiria": 131,
+        "Santarém": 63,
+        "Coimbra": 104,
+        "Viseu": 70,
+        "Madeira": 334,
+        "Azores": 106,
+        "Viana do Castelo": 103,
+        "Vila Real": 43,
+        "Castelo Branco": 27,
+        "Évora": 21,
+        "Beja": 14,
+        "Guarda": 26,
+        "Bragança": 19,
+        "Portalegre": 17}
 var gender_population_data = 
         {
                 1960 : {'M': {'value': 4254416, 'percentage': 47.8}, 'F': {'value': 4634976, 'percentage': 52.2} },

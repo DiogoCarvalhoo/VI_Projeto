@@ -57,14 +57,14 @@
                 </div>
                 <div class="row">
                   <div class='layout'>
-                    <div id='container2' class="graph">
+                    <div id='container2' class="graph" style="position:relative">
                       <svg id="esperanca_media_vida_graph" ></svg>
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class='layout'>
-                    <div id='container3' class="graph">
+                    <div id='container3' class="graph" style="position:relative">
                       <select id="gender_population_year_selection" class="form-select year_select" aria-label="Default select-sm example">
                         <option value="1960">1960</option>
                         <option value="1970">1970</option>
@@ -115,7 +115,11 @@
                 </div>
             </div>
             <div class="col-md-6">
-              AQUELA
+              <div class='layout' style="text-align: center;">
+                <div id='container4' class="graph" style="height: 700px;">
+                  <svg id="portugal_map" style="width: 100%; height: 100%;"></svg>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -130,7 +134,7 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"
     ></script>
-    
+
     <!-- MY JS -->
     <script src="JS/index.js"></script>
     <script src="JS/menu.js"></script>

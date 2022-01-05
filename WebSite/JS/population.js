@@ -3,7 +3,8 @@ function loadInitialPopulation() {
 
     // Graphs Dimensions
     margin = 80;
-    width = 700 - 2 * margin;
+    margin_right = 40;
+    width = document.getElementById("container1").offsetWidth - margin - margin_right;
     height = 400 - 2 * margin;
 
 
@@ -21,7 +22,7 @@ function loadInitialPopulation() {
     svg_histogram = d3.select('#age_population_year_graph');
 
     histogram = svg_histogram
-                .attr("width", width + margin + margin)
+                .attr("width", width + margin + margin_right)
                 .attr("height", height + margin + margin)
                 .append("g")
                 .attr("transform", "translate(" + margin + "," + margin + ")");
@@ -69,7 +70,7 @@ function loadInitialPopulation() {
 
     // Dot Graph Construction
     svg_dot_graph = d3.select("#esperanca_media_vida_graph")
-            .attr("width", width + margin + margin)
+            .attr("width", width + margin + margin_right)
             .attr("height", height + margin + margin);
     
     var dot_graph_chart = svg_dot_graph.append('g').attr("transform",
@@ -102,9 +103,17 @@ function loadInitialPopulation() {
 
 
     /*
+        Portugal Map
+    */
+    portugal_map()
+
+
+
+    
+    /*
         Pie Chart Creation Section
     */
-
+    margin = 60;
     const radius = Math.min(width, height) / 2 ;
 
 
@@ -132,17 +141,29 @@ function loadInitialPopulation() {
         .value(function(d) { return d[1] == undefined ? undefined: d[1].value; })
         .sort(function(a, b) { return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
 
+    // create a tooltip
+    var piechart_Tooltip = d3.select("#container3")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("color", "black")
+        .style("position", "absolute")
 
     // Add event when user changes the selected year
     d3.select('#gender_population_year_selection')
         .on('change', function() {
         year = this.value;
         new_pie_chart_data = gender_population_data[year];
-        updatePieChart(new_pie_chart_data, svg_pie_chart, pie, arc, color);
+        updatePieChart(new_pie_chart_data, svg_pie_chart, pie, arc, color, piechart_Tooltip);
     });
 
     // Initialize Pie Chart
-    updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color)
+    updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color, piechart_Tooltip)
 
     // Create Tiles 
     loadTitles( svg_pie_chart, "", "", "População por Género", "Fonte: PORDATA, 2021")
@@ -300,6 +321,7 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
         .style("border-width", "2px")
         .style("border-radius", "5px")
         .style("padding", "5px")
+        .style("position", "absolute")
     
     chart.append("g")
         .call(d3.axisLeft(dot_graph_yScale));
@@ -364,10 +386,11 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
             })
 
         .on('mousemove', function(mouse, d) {
+            
             dot_graph_Tooltip
                 .html("Ano: " + d.year + "<br>Valor: " + d.value)
-                .style("left", (d3.pointer(mouse)[0]+490) + "px")
-                .style("top", (d3.pointer(mouse)[1]+520) + "px")
+                .style("left", margin/2 + d3.pointer(mouse)[0] + "px")
+                .style("top", d3.pointer(mouse)[1] + "px")
                 .style("color", "black")
             })
         
@@ -406,20 +429,13 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
 
 
 
-
-
-
-
-
 /*
-    Pie Chart Related Functions
+    Portugal Map Related Functions
 */
-
-// Function to initialize pie chart
-async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color) {
+function portugal_map() {
 
     // create a tooltip
-    var piechart_Tooltip = d3.select("#container3")
+    var Tooltip = d3.select("#container4")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -428,7 +444,195 @@ async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color) {
         .style("border-width", "2px")
         .style("border-radius", "5px")
         .style("padding", "5px")
+        .style("color", "black")
 
+        var mouseover = function(d) {
+            Tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("stroke-width", "2px")
+        }
+        var mousemove = function(event, i) {
+            pos = d3.select("#container4").node().getBoundingClientRect();
+            pos["x"] += d3.pointer(event)[0]
+            pos["y"] += d3.pointer(event)[1]
+            
+            Tooltip.html("Distrito: " + i.properties.name + "<br>Densidade: " + population_density[i.properties.name])
+                .style("left", pos["x"] - 60 + "px")
+                .style(
+                    "top",
+                    window.pageYOffset + pos["y"] - 80 + "px"
+                );
+    
+            }
+        var mouseleave = function(d) {
+            Tooltip
+                .style("opacity", 0)
+            d3.select(this)
+                .style("stroke", "none")
+        }
+    
+        const svg = d3.select("#portugal_map")
+    
+        // Map and projection
+        const projection = d3.geoMercator()
+        .center([-10, 42])                // GPS of location to zoom on
+        .scale(5000)                       // This is like the zoom
+        .translate([ width/2, height/2 ])
+    
+        // Load external data and boot
+        d3.json("Data/portugal_map_coords.json").then( function(data){
+    
+            // Update coords to move azores closer to Portugal and reduce its size
+            azores_coords = data.features[1].geometry.coordinates
+            data.features[1].geometry.coordinates = azores_coords.map(elem => {
+                line = elem.map(element => {
+                    coords = element.map(values => {
+                        return [ parseFloat(values[0]) / 3 - 2 , parseFloat(values[1]) / 3 + 28 ]
+                    })
+                    return coords
+                })
+                return line
+            })
+    
+            // Update coords to move madeira closer to Portugal
+            madeira_coords = data.features[2].geometry.coordinates
+            data.features[2].geometry.coordinates = madeira_coords.map(elem => {
+                line = elem.map(element => {
+                    coords = element.map(values => {
+                        return [ parseFloat(values[0]) + 5.5 , parseFloat(values[1]) + 6.2]
+                    })
+                    return coords
+                })
+                return line
+            })
+    
+            // Draw the map
+            svg.append("g")
+                .selectAll("path")
+                .data(data.features)
+                .join("path")
+                .attr("fill", function (value, i) {
+                    density = population_density[value.properties.name]
+                    if (density >= 500) {
+                        return "#4d4d4d";
+                    }
+                    if ( 300 <= density && density < 500) {
+                        return "#737373"
+                    }
+                    if ( 150 <= density && density < 300) {
+                        return "#999999"
+                    }
+                    if ( 75 <= density && density < 150) {
+                        return "#bfbfbf"
+                    }
+                    if ( 75 > density ) {
+                        return "#d9d9d9"
+                    }
+                })
+                .attr("d", d3.geoPath()
+                    .projection(projection)
+                )
+                .style("stroke", "none")
+                .on("mouseover", mouseover)
+                .on("mousemove", mousemove)
+                .on("mouseleave", mouseleave)
+    
+                
+        })
+    
+        // Rectangle over Azores
+        svg.append("rect")
+            .style("fill", "none")
+            .style("stroke", "grey")
+            .attr("x", 40)
+            .attr("y", 185)
+            .attr("width", 220)
+            .attr("height", 150)
+        
+        // Rectangle over Madeira
+        svg.append("rect")
+            .style("fill", "none")
+            .style("stroke", "grey")
+            .attr("x", 70)
+            .attr("y", 400)
+            .attr("width", 180)
+            .attr("height", 120)
+    
+        // Legend
+        svg.append("rect")
+            .style("fill", "#d9d9d9")
+            .attr("x", 80)
+            .attr("y", 570)
+            .attr("width", 15)
+            .attr("height", 15)
+        svg.append('text')
+            .attr('x', 100)
+            .attr('y', 580)
+            .attr('text-anchor', 'start')
+            .text("[0, 75]")
+    
+        svg.append("rect")
+            .style("fill", "#bfbfbf")
+            .attr("x", 80)
+            .attr("y", 590)
+            .attr("width", 15)
+            .attr("height", 15)
+        svg.append('text')
+            .attr('x', 100)
+            .attr('y', 600)
+            .attr('text-anchor', 'start')
+            .text("[75, 150[")
+    
+        svg.append("rect")
+            .style("fill", "#999999")
+            .attr("x", 80)
+            .attr("y", 610)
+            .attr("width", 15)
+            .attr("height", 15)
+        svg.append('text')
+            .attr('x', 100)
+            .attr('y', 620)
+            .attr('text-anchor', 'start')
+            .text("[150, 300[")
+    
+        svg.append("rect")
+            .style("fill", "#737373")
+            .attr("x", 80)
+            .attr("y", 630)
+            .attr("width", 15)
+            .attr("height", 15)
+        svg.append('text')
+            .attr('x', 100)
+            .attr('y', 640)
+            .attr('text-anchor', 'start')
+            .text("[300, 500[")
+    
+        svg.append("rect")
+            .style("fill", "#4d4d4d")
+            .attr("x", 80)
+            .attr("y", 650)
+            .attr("width", 15)
+            .attr("height", 15)
+        svg.append('text')
+            .attr('x', 100)
+            .attr('y', 660)
+            .attr('text-anchor', 'start')
+            .text("> 500")
+
+}
+/*
+    End of Portugal Map Related Functions
+*/
+
+
+/*
+    Pie Chart Related Functions
+*/
+// Function to initialize pie chart
+async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color, piechart_Tooltip) {
+        
     const data_ready = pie(Object.entries(pie_chart_data))
 
     svg_pie_chart.selectAll(".arc").remove()
@@ -464,8 +668,8 @@ async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color) {
         .on('mousemove', function(mouse, d) {
             piechart_Tooltip
             .html(d.data[0] == "M" ? "Género: Masculino" + "<br>Valor: " + d.value : "Género: Feminino" + "<br>Valor: " + d.value)
-            .style("left", (d3.pointer(mouse)[0]+755) + "px")
-            .style("top", (d3.pointer(mouse)[1]+1100) + "px")
+            .style("left", d3.pointer(mouse)[0] + (width / 2) + "px")
+            .style("top", d3.pointer(mouse)[1] + (height / 2) + "px")
             .style("color", "black")
         })
 
@@ -494,8 +698,8 @@ async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color) {
         .attr("transform", function(d, i) {
 
             var _d = arc.centroid(d);
-            _d[0] = _d[0] + 350;	//multiply by a constant factor
-            _d[1] = _d[1] + 200;	//multiply by a constant factor
+            _d[0] = _d[0] + 310;	//multiply by a constant factor
+            _d[1] = _d[1] + 180;	//multiply by a constant factor
             return "translate(" + _d + ")";
         })
         .attr("dy", ".50em")
