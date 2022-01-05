@@ -14,7 +14,7 @@
 
     <!-- MY CSS -->
     <link href="CSS/menu.css" rel="stylesheet" />
-    <link href="CSS/home.css" rel="stylesheet" />
+    <link href="CSS/population.css" rel="stylesheet" />
     <link href="CSS/style.css" rel="stylesheet" />
 
 
@@ -23,112 +23,7 @@
 
 
     <title>InfoPortugal</title>
-    <style>
-      body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  padding-bottom: 20px;
-}
 
-.topnav {
-  overflow: hidden;
-  background-color: #EBC8B2;
-}
-
-.topnav a {
-  float: left;
-  color:white; 
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.topnav a:hover {
-  background-color:#EBC8B2;
-  color: black;
-}
-
-.topnav a.active {
-  background-color: #EBC8B2;
-  color: black;
-}
-
-
-div.layout {
-  text-align: center;
-}
-
-div#container1 {
-  margin: auto;
-}
-
-div#container2 {
-  margin: auto;
-}
-
-div#container3 {
-  margin: auto;
-}
-
-svg {
-  width: 100%;
-  height: 100%;
-}
-
-.bar {
-  fill: lightskyblue;
-}
-
-text {
-  font-size: 10px;
-  width: 10px;
-  fill: white;
-}
-
-line {
-  stroke: gray;
-}
-
-line#limit {
-  stroke: black;
-  stroke-width: 3;
-  stroke-dasharray: 3 6;
-}
-
-.grid path {
-  stroke-width: 0;
-}
-
-.grid .tick line {
-  stroke: #9FAAAE;
-  stroke-opacity: 1;
-}
-
-text.divergence {
-  font-size: 10px;
-  fill: green;
-}
-
-text.value {
-  font-size: 10px;
-}
-
-text.title {
-  font-size: 22px;
-  font-weight: 600;
-  margin-top: 200px;
-}
-
-text.label {
-  font-size: 14px;
-  font-weight: 400;
-}
-
-text.source {
-  font-size: 10px;
-}
-    </style>
   </head>
   <body onload="main('population')">
 
@@ -139,16 +34,16 @@ text.source {
       -->
       
       <main>
-        <div class="container" style="text-align: center;">
+        <div class="container">
           <div class="row">
             <div class="col-md-6">
 
                 <div class="row">
                     
-                  <div class='layout' style="text-align: center;">
+                  <div class='layout'>
                     
-                    <div id='container1' style="height: 400px; margin: auto; ">
-                      <select id="age_population_year_selection" style="width: 20%; font-size: 12px; margin-top: 2%;" class="form-select" aria-label="Default select-sm example">
+                    <div id='container1' class="graph">
+                      <select id="age_population_year_selection" class="form-select year_select" aria-label="Default select-sm example">
                         <option value="1960">1960</option>
                         <option value="1970">1970</option>
                         <option value="1981">1981</option>
@@ -156,28 +51,72 @@ text.source {
                         <option value="2001">2001</option>
                         <option selected value="2011">2011</option>
                       </select>
-                        <svg id="age_population_year_graph" style="width: 100%; height: 100%;"></svg>
+                      <svg id="age_population_year_graph"></svg>
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class='layout' style="text-align: center;">
-                    <div id='container2' style="height: 400px; margin: auto; ">
-                        <svg id="esperanca_media_vida_graph" style="width: 100%; height: 100%;"></svg>
+                  <div class='layout'>
+                    <div id='container2' class="graph" style="position:relative">
+                      <svg id="esperanca_media_vida_graph" ></svg>
                     </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class='layout' style="text-align: center;">
-                    <div id='container3' style="height: 400px; margin: auto; ">
-                        <svg id="svg3" style="width: 100%; height: 100%;"></svg>
+                  <div class='layout'>
+                    <div id='container3' class="graph" style="position:relative">
+                      <select id="gender_population_year_selection" class="form-select year_select" aria-label="Default select-sm example">
+                        <option value="1960">1960</option>
+                        <option value="1970">1970</option>
+                        <option value="1981">1981</option>
+                        <option value="1991">1991</option>
+                        <option value="2001">2001</option>
+                        <option value="2011">2011</option>
+                        <option selected value="2021">2021</option>
+                      </select>
+                      
+                      <!--<div class="mdc-slider mdc-slider--discrete mdc-slider--tick-marks">
+                        <input class="mdc-slider__input" type="range" min="0" max="100" value="50" name="volume" step="10" aria-label="Discrete slider with tick marks demo">
+                        <div class="mdc-slider__track">
+                          <div class="mdc-slider__track--inactive"></div>
+                          <div class="mdc-slider__track--active">
+                            <div class="mdc-slider__track--active_fill"></div>
+                          </div>
+                          <div class="mdc-slider__tick-marks">
+                            <div class="mdc-slider__tick-mark--active"></div>
+                            <div class="mdc-slider__tick-mark--active"></div>
+                            <div class="mdc-slider__tick-mark--active"></div>
+                            <div class="mdc-slider__tick-mark--active"></div>
+                            <div class="mdc-slider__tick-mark--active"></div>
+                            <div class="mdc-slider__tick-mark--active"></div>
+                            <div class="mdc-slider__tick-mark--inactive"></div>
+                            <div class="mdc-slider__tick-mark--inactive"></div>
+                            <div class="mdc-slider__tick-mark--inactive"></div>
+                            <div class="mdc-slider__tick-mark--inactive"></div>
+                            <div class="mdc-slider__tick-mark--inactive"></div>
+                          </div>
+                        </div>
+                        <div class="mdc-slider__thumb">
+                          <div class="mdc-slider__value-indicator-container" aria-hidden="true">
+                            <div class="mdc-slider__value-indicator">
+                              <span class="mdc-slider__value-indicator-text">
+                                50
+                              </span>
+                            </div>
+                          </div>
+                          <div class="mdc-slider__thumb-knob"></div>
+                        </div>
+                      </div>-->
+
+
+                      <svg id="gender_population_graph"></svg>
                     </div>
                   </div>
                 </div>
             </div>
             <div class="col-md-6">
               <div class='layout' style="text-align: center;">
-                <div id='container4' style="height: 700px; margin: auto; ">
+                <div id='container4' class="graph" style="height: 700px;">
                   <svg id="portugal_map" style="width: 100%; height: 100%;"></svg>
                 </div>
               </div>
@@ -188,9 +127,6 @@ text.source {
 
       </main>
 
-
-      
-
     </div>
 
     <script
@@ -198,176 +134,11 @@ text.source {
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"
     ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <!-- MY JS -->
     <script src="JS/index.js"></script>
     <script src="JS/menu.js"></script>
     <script src="JS/home.js"></script>
-
-    <script type="text/javascript">
-
-
-        //Dimensions
-        margin = 80;
-        width = 700 - 2 * margin;
-        height = 400 - 2 * margin;
-
-        
-        
-
-
-        
-        dataset = [
-          {'year': 1960, 'results': {'M': {'value': 4254416, 'percentage': 47.8}, 'F': {'value': 4634976, 'percentage': 52.2} }},
-          {'year': 1970, 'results': {'M': {'value': 4109360, 'percentage': 47.4}, 'F': {'value': 4553892, 'percentage': 52.6} }},
-          {'year': 1981, 'results': {'M': {'value': 4737715, 'percentage': 48.2}, 'F': {'value': 5095299, 'percentage': 51.8} }},
-          {'year': 1991, 'results': {'M': {'value': 4756775, 'percentage': 48.2}, 'F': {'value': 5110372, 'percentage': 51.8} }},
-          {'year': 2001, 'results': {'M': {'value': 5000141, 'percentage': 48.3}, 'F': {'value': 5355976, 'percentage': 51.7} }},
-          {'year': 2011, 'results': {'M': {'value': 5046600, 'percentage': 47.8}, 'F': {'value': 5515578, 'percentage': 52.2} }},
-          {'year': 2021, 'results': {'M': {'value': 4917794, 'percentage': 47.5}, 'F': {'value': 5430098, 'percentage': 52.5} }}
-        ]
-
-        
-        // create a tooltip
-        var Tooltip = d3.select("#container3")
-            .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "5px")
-            .style("padding", "5px")
-
-        const radius = Math.min(width, height) / 2 ;
-
-
-        svg3 = d3.select("#svg3")
-                  .attr("width", width + margin + margin)
-                  .attr("height", height + margin + margin);
-        const chart = svg3.append('g').attr("transform", `translate(${margin}, ${margin})`);
-
-        const color = d3.scaleOrdinal()
-            .domain(["M", "F"])
-            .range(d3.schemeDark2);
-
-        var arc = d3.arc()
-          .outerRadius(radius)
-          .innerRadius(0);
-
-        var pie = d3.pie()
-            .value(function(d) { return d[1] == undefined ? undefined: d[1].value; })
-            .sort(function(a, b) { return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
-
-        const data_ready = pie(Object.entries(dataset[0].results))
-
-
-        var g = svg3.selectAll(".arc")
-          .data(data_ready)
-          .enter().append("g");    
-
-        g.append("path")
-          .attr("d", arc)
-          .attr("transform", "translate(" + (width/2+margin) + "," + (height/2+margin) + ")")
-          .style("fill", function(d,i) {
-            return color(d.data[0]);
-          })
-          .attr("stroke", "white")
-          .style("stroke-width", "2px")
-          .style("opacity", 1)
-
-          .on('mouseenter', function (actual, i) {
-
-            Tooltip
-              .style("opacity", 1)
-            d3.select(this)
-              .style("stroke", "black")
-              .style("stroke-width", "4px")
-              .style("opacity", 1)
-            
-          })
-
-          .on('mousemove', function(mouse, d) {
-            Tooltip
-            .html(d.data[0] == "M" ? "Género: Masculino" + "<br>Valor: " + d.value : "Género: Feminino" + "<br>Valor: " + d.value)
-              .style("left", (d3.pointer(mouse)[0]+500) + "px")
-              .style("top", (d3.pointer(mouse)[1]+900) + "px")
-              .style("color", "black")
-          })
-
-          .on('mouseleave', function () {
-              Tooltip
-                .style("opacity", 0)
-              d3.select(this)
-                .style("stroke", "white")
-                .style("stroke-width", "2px")
-                .style("opacity", 1)
-          })
-
-        g.append("text")
-          .attr("transform", function(d, i) {
-
-            var _d = arc.centroid(d);
-            _d[0] = _d[0] + 350;	//multiply by a constant factor
-            _d[1] = _d[1] + 200;	//multiply by a constant factor
-            return "translate(" + _d + ")";
-          })
-          .attr("dy", ".50em")
-          .style("text-anchor", "middle")
-          .text(function(d) {
-            if(d.data[1].percentage < 8) {
-              return '';
-            }
-            return d.data[1].percentage + '%';
-          });
-
-
-        // again rebind for legend
-        var legendG = svg3.selectAll(".legend") // note appending it to mySvg and not svg to make positioning easier
-          .data(pie(data_ready))
-          .enter().append("g")
-          .attr("transform", function(d,i){
-            return "translate(" + (width - margin/2) + "," + (i * 15 + height) + ")"; // place each legend on the right and bump each one down 15 pixels
-          })
-          .attr("class", "legend");   
-
-        legendG.append("rect") // make a matching color rect
-          .attr("width", 10)
-          .attr("height", 10)
-          .attr("fill", function(d, i) {
-            return color(d.data.data[0]);
-          });
-
-        legendG.append("text") // add the text
-          .text(function(d){
-            return d.data.data[0] == "M" ? "Masculino" : "Feminino";
-          })
-          .style("font-size", 12)
-          .attr("y", 10)
-          .attr("x", 11);
-
-
-         //Título
-         svg3.append('text')
-              .attr('class', 'title')
-              .attr('x',  width / 2 + margin)
-              .attr('y', 40)
-              .attr('text-anchor', 'middle')
-              .text('População por Género')
-          
-          //Source
-          svg3.append('text')
-              .attr('class', 'source')
-              .attr('x', width - margin / 2)
-              .attr('y', 380)
-              .attr('text-anchor', 'start')
-              .text('Source: INE, 2020')
-
-
-
-        
-      
-    </script>
     
     <script type="text/javascript" src="Data/population.js"></script>
     <script type="text/javascript" src="JS/population.js"></script>
