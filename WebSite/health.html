@@ -14,7 +14,7 @@
 
     <!-- MY CSS -->
     <link href="CSS/menu.css" rel="stylesheet" />
-    <link href="CSS/population.css" rel="stylesheet" />
+    <link href="CSS/health.css" rel="stylesheet" />
     <link href="CSS/style.css" rel="stylesheet" />
 
 
@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-6">
               <div class='layout'>
-                <div id='container1' class="graph">
+                <div id='container2' class="graph">
                   <svg id="a"></svg>
                 </div>
               </div>
@@ -54,23 +54,64 @@
 
           <div class="row">
             <div class='layout'>
-              <div id='container1' class="graph">
+              <div  class="graph">
                 <div class="row">
-                  <div class="col-md-9">
+                  <div id="container3" class="col-md-8" style="position:relative">
                     <svg id="medics_by_speciality_graph"></svg>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-1 color-line-col" style="margin: auto;">
+                    <hr class="color-line" style="background-color: #ffff33; border-color: #ffff33;">
+                    <hr class="color-line" style="background-color: #053d3f; border-color: #053d3f;">
+                    <hr class="color-line" style="background-color: #999999; border-color: #999999;">
+                    <hr class="color-line" style="background-color: lightyellow; border-color: lightyellow;">
+                    <hr class="color-line" style="background-color: lightpink; border-color: lightpink;">
+                    <hr class="color-line" style="background-color: #63f5e1; border-color: #63f5e1;">
+                    <hr class="color-line" style="background-color: #377eb8; border-color: #377eb8;">
+                    <hr class="color-line" style="background-color: #4daf4a; border-color: #4daf4a;">
+                    <hr class="color-line" style="background-color: #984ea3; border-color: #984ea3;">
+                    <hr class="color-line" style="background-color: #ff7f00; border-color: #ff7f00;">
+
+                  </div>
+                  <div class="col-md-3" style="margin: auto; text-align: left; padding: 0;">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="totalMedicosSwitch" checked onchange="handleChangedSwitch(event)">
+                      <input class="form-check-input" type="checkbox" id="totalMedicosSwitch"  style="background-color: #ffff33;" checked>
                       <label class="form-check-label" for="flexSwitchCheckChecked">Total Médicos</label>
                     </div>
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="naoEspecialistasSwitch" onchange="handleChangedSwitch(event) ">
+                      <input class="form-check-input" type="checkbox" id="naoEspecialistasSwitch"  style="background-color: #053d3f;" checked>
                       <label class="form-check-label" for="flexSwitchCheckChecked">Não Especialistas</label>
                     </div>
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="cirurgiaGeralSwitch" onchange="handleChangedSwitch(event)">
+                      <input class="form-check-input" type="checkbox" id="cirurgiaGeralSwitch" style="background-color: #999999;" checked>
                       <label class="form-check-label" for="flexSwitchCheckChecked">Cirurgia Geral</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="ginecologiaObstetriciaSwitch" style="background-color: lightyellow;" checked>
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Ginecologia e Obstetrícia</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="medicinaGeralFamiliarSwitch" style="background-color: lightpink;" checked>
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Medicina Geral e Familiar</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="oftalmologiaSwitch" style="background-color: #63f5e1;" checked>
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Oftalmologia</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="ortopediaSwitch" style="background-color: #377eb8;" checked>
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Ortopedia</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="pediatriaSwitch" style="background-color: #4daf4a;" checked>
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Pediatria</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="psiquiatriaSwitch" style="background-color: #984ea3;" checked>
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Psiquiatria</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="outrasSwitch" style="background-color: #ff7f00;" checked>
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Outras</label>
                     </div>
                   </div>
                 </div>
