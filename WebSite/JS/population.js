@@ -219,6 +219,8 @@ function loadTitles(svg, titleY, titleX, title, source) {
 
 // Function to update histogram
 function updateHistogram(data,  xScale, xAxis, yScale, yAxis) {
+    margin = 80;
+    height = 400 - 2 * margin;
     // X axis
     xScale.domain(data.map(function(d) { return d.type; }))
     xAxis.transition().duration(1000).call(d3.axisBottom(xScale))
@@ -636,7 +638,8 @@ function portugal_map() {
 */
 // Function to initialize pie chart
 async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color, piechart_Tooltip) {
-        
+    margin = 60;
+    height = 400 - 2* margin
     const data_ready = pie(Object.entries(pie_chart_data))
 
     svg_pie_chart.selectAll(".arc").remove()

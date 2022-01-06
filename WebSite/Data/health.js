@@ -115,3 +115,118 @@ var medicsspeciality_data =
                 1996 : {'Total': 29902, 'NE': 10701, 'Cirurgia Geral': 1161, 'Estomatologia': 790, 'Ginecologia e Obstetrícia':	1378, 'Medicina Geral e Familiar': 4268, 'Oftalmologia': 692, 'Ortopedia': 700, 'Pediatria': 1216, 'Psiquiatria': 829, 'Outras': 9468 }
 
 }*/
+
+
+var three_bar_data = {
+    1994: [
+        {group: "Consultas", total: 29534, hospitais: 5384, centros_de_saude: 24150},
+        {group: "Internamentos", total: 948, hospitais: 919, centros_de_saude: 29},
+        {group: "Urgências", total: 9189, hospitais: 5176, centros_de_saude: 4013}],
+    1995: [
+        {group: "Consultas", total: 30149, hospitais: 5473, centros_de_saude: 24676},
+        {group: "Internamentos", total: 951, hospitais: 924, centros_de_saude: 27},
+        {group: "Urgências", total: 10507, hospitais: 5830, centros_de_saude: 4677}],
+    1996: [
+        {group: "Consultas", total:30118, hospitais: 5732, centros_de_saude: 24386},
+        {group: "Internamentos", total: 973, hospitais: 948, centros_de_saude: 25},
+        {group: "Urgências", total: 10847, hospitais: 6051, centros_de_saude: 4796}],
+    1997: [
+        {group: "Consultas", total:31279, hospitais: 5915, centros_de_saude: 25364},
+        {group: "Internamentos", total: 977, hospitais: 954, centros_de_saude: 23},
+        {group: "Urgências", total: 11354, hospitais: 6402, centros_de_saude: 4952}],
+    1998: [
+        {group: "Consultas", total:31954, hospitais: 6027, centros_de_saude: 25927},
+        {group: "Internamentos", total: 1002, hospitais: 982, centros_de_saude: 20},
+        {group: "Urgências", total: 11079, hospitais: 6393, centros_de_saude: 4686}],
+    1999: [
+        {group: "Consultas", total:32758, hospitais: 6393, centros_de_saude: 26365},
+        {group: "Internamentos", total: 903, hospitais: 885, centros_de_saude: 18},
+        {group: "Urgências", total: 11144, hospitais: 5996, centros_de_saude: 5148}],
+    2000: [
+        {group: "Consultas", total:33218, hospitais: 6621, centros_de_saude: 26597},
+        {group: "Internamentos", total: 924, hospitais: 906, centros_de_saude: 17},
+        {group: "Urgências", total: 11413, hospitais: 5943, centros_de_saude: 5470}],
+    2001: [
+        {group: "Consultas", total:34255, hospitais: 7108, centros_de_saude: 27147},
+        {group: "Internamentos", total: 942, hospitais: 924, centros_de_saude: 18},
+        {group: "Urgências", total: 11819, hospitais: 6183, centros_de_saude: 5637}],
+    2002: [
+        {group: "Consultas", total:35629, hospitais: 7480, centros_de_saude: 28149},
+        {group: "Internamentos", total: 955, hospitais: 936, centros_de_saude: 18},
+        {group: "Urgências", total: 12256, hospitais: 6321, centros_de_saude: 5935}],
+    2003: [
+        {group: "Consultas", total:35898, hospitais: 7994, centros_de_saude: 27904},
+        {group: "Internamentos", total: 964, hospitais: 950, centros_de_saude: 13},
+        {group: "Urgências", total: 12590, hospitais: 6466, centros_de_saude: 6124}],
+    2004: [
+        {group: "Consultas", total:36469, hospitais: 8498, centros_de_saude: 27971},
+        {group: "Internamentos", total: 954, hospitais: 942, centros_de_saude: 11},
+        {group: "Urgências", total: 11994, hospitais: 6211, centros_de_saude: 5783}],
+    2005: [
+        {group: "Consultas", total:37015, hospitais: 8898, centros_de_saude: 28117},
+        {group: "Internamentos", total: 970, hospitais: 959, centros_de_saude: 10},
+        {group: "Urgências", total: 12425, hospitais: 6447, centros_de_saude: 5978}],
+    2006: [
+        {group: "Consultas", total:37457, hospitais: 9257, centros_de_saude: 28200},
+        {group: "Internamentos", total: 956, hospitais: 948, centros_de_saude: 8},
+        {group: "Urgências", total: 12022, hospitais: 6366, centros_de_saude: 5656}],
+    2007: [
+        {group: "Consultas", total:38712, hospitais: 9725, centros_de_saude: 28987},
+        {group: "Internamentos", total: 953, hospitais: 949, centros_de_saude: 4},
+        {group: "Urgências", total: 11633, hospitais: 6595, centros_de_saude: 5038}],
+    2008: [
+        {group: "Consultas", total:41220, hospitais: 10212, centros_de_saude: 31008},
+        {group: "Internamentos", total: 931, hospitais: 929, centros_de_saude: 2},
+        {group: "Urgências", total: 9805, hospitais: 6409, centros_de_saude: 3396}],
+    2009: [
+        {group: "Consultas", total:37792, hospitais: 10683, centros_de_saude: 27109},
+        {group: "Internamentos", total: 910, hospitais: 909, centros_de_saude: 1},
+        {group: "Urgências", total: 10151, hospitais: 6376, centros_de_saude: 3775}],
+    2010: [
+        {group: "Consultas", total:38330, hospitais: 10998, centros_de_saude: 27332},
+        {group: "Internamentos", total: 907, hospitais: 906, centros_de_saude: 1},
+        {group: "Urgências", total: 8904, hospitais: 6450, centros_de_saude: 2454}],
+    2011: [
+        {group: "Consultas", total:38394, hospitais: 11167, centros_de_saude: 27227},
+        {group: "Internamentos", total: 881, hospitais: 881, centros_de_saude: 0},
+        {group: "Urgências", total: 8123, hospitais: 6341, centros_de_saude: 1783}],
+    2012: [
+        {group: "Consultas", total:36933, hospitais: 11319, centros_de_saude: 25614},
+        {group: "Internamentos", total: 887, hospitais: 887, centros_de_saude: 0},
+        {group: "Urgências", total: 7204, hospitais: 5914, centros_de_saude: 1289}],
+    2013: [
+        {group: "Consultas", total:-1, hospitais:11669, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:881.9, centros_de_saude:-1},
+        {group: "Urgências", total:-1, hospitais:5966, centros_de_saude:-1}],
+    2014: [
+        {group: "Consultas", total:-1, hospitais:11840, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:860.7, centros_de_saude:-1},
+        {group: "Urgências", total:-1, hospitais:5961, centros_de_saude:-1}],
+    2015: [
+        {group: "Consultas", total:-1, hospitais:12063, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:860.1, centros_de_saude:-1},
+        {group: "Urgências", total:-1, hospitais:5886, centros_de_saude:-1}],
+    2016: [
+        {group: "Consultas", total:-1, hospitais:12109, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:860.1, centros_de_saude:-1},
+        {group: "Urgências", total:-1, hospitais:6175, centros_de_saude:-1}],
+    2017: [
+        {group: "Consultas", total:-1, hospitais:12146, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:850.8, centros_de_saude:-1},
+        {group: "Urgências", total:-1, hospitais:6081, centros_de_saude:-1}],
+    2018: [
+        {group: "Consultas", total:-1, hospitais:12229, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:836.6, centros_de_saude:-1},
+        {group: "Urgências", total:-1, hospitais:6149, centros_de_saude:-1}],
+    2019: [
+        {group: "Consultas", total:-1, hospitais:12445, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:810.9, centros_de_saude:-1},
+        {group: "Urgências", total:-1, hospitais:6426, centros_de_saude:-1}],
+    2020: [
+        {group: "Consultas", total:-1, hospitais:11311, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:695.5, centros_de_saude:-1},
+        {group: "Urgências", total:-1, hospitais:4553, centros_de_saude:-1}]    
+}
+
+
+

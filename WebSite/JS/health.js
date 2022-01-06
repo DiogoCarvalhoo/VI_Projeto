@@ -6,6 +6,88 @@ checked_dict = {
 
 function loadInitialHealth() {
 
+    /*
+        Consultas, Internamentos, Urgencias Three Bar chart
+    */
+    // set the dimensions and margins of the graph
+    const margin = 80; 
+    width = document.getElementById("container2").offsetWidth - margin - margin - 60;
+    height = 400 - margin - margin;
+
+    // append the svg object to the body of the page
+    const svg = d3.select("#tree_bars_graph")
+                    .attr("width", width + margin + margin + 60 )
+                    .attr("height", height + margin + margin)
+                .append("g")
+                    .attr("transform",`translate(${margin},${margin})`);
+
+    // Parse the Data
+    data = three_bar_data[1999]
+
+    // Get selected year
+    selected_histogram_year = document.getElementById("three_bars_year_selection").value;
+    
+    // Get the data from the selected year
+    data = three_bar_data[selected_histogram_year];
+
+    subgroups = ["total", "hospitais", "centros_de_saude"]
+
+    // List of groups = species here = value of the first column called group -> I show them on the X axis
+    const groups = data.map(d => d.group)
+
+    // Add X axis
+    const xScale = d3.scaleBand()
+        .domain(groups)
+        .range([0, width])
+        .padding([0.2])
+    svg.append("g")
+        .attr("class", "xLabels")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(xScale).tickPadding(10).tickSize(0))
+        
+        
+
+    data_max_value = d3.max(data, function(d) { return +d.total })
+    power_value = 0
+    while (true) {
+        if (2 ** power_value > data_max_value) {
+            domain_limit = 2 ** power_value
+            break;
+        }
+        power_value += 1
+    }
+
+    // Add Y axis
+    const yScale = d3.scaleLog().base(2)
+        .domain([1, domain_limit ])
+        .range([ height, 0 ]);
+    var yAxis = svg.append("g")
+            .call(d3.axisLeft(yScale));
+
+    // Another scale for subgroup position?
+    const xSubgroup = d3.scaleBand()
+        .domain(subgroups)
+        .range([0, xScale.bandwidth()])
+        .padding([0.05])
+
+    // color palette = one color per subgroup
+    const color = d3.scaleOrdinal()
+        .domain(subgroups)
+        .range(['#e41a1c','#377eb8','#4daf4a'])
+    
+    // Add event when user changes the selected year
+    d3.select('#three_bars_year_selection')
+        .on('change', function() {
+        year = this.value;
+        new_data = three_bar_data[year];
+        update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, new_data)
+    });
+    
+    update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, data)
+    loadTitles(svg, "Número de ocorrências", "", "Consultas, Internamentos e Urgências", "Fonte: PORDATA, 2021")
+
+
+
     createGraph(checked_dict)
 
     /*
@@ -69,6 +151,185 @@ function loadInitialHealth() {
     }
     */
     
+}
+
+
+
+
+function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, data) {
+    
+    var t = textures.lines()
+    .orientation("3/8")
+    .stroke("lightgrey");
+
+
+    svg.call(t);
+    total_data_max_value = d3.max(data, function(d) { console.log(d); return +d.total })
+    hospitals_data_max_value = d3.max(data, function(d) { console.log(d); return +d.hospitais })
+    centros_data_max_value = d3.max(data, function(d) { console.log(d); return +d.centros_de_saude })
+    data_max_value = Math.max(total_data_max_value, hospitals_data_max_value, centros_data_max_value)
+    power_value = 0
+    while (true) {
+        if (2 ** power_value > data_max_value && power_value % 2 == 0) {
+            domain_limit = 2 ** power_value
+            break;
+        }
+        power_value += 1
+    }
+
+    // Add Y axis
+    yScale.domain([1, domain_limit ]);
+    yAxis.transition().duration(1000).call(d3.axisLeft(yScale));
+
+    svg.selectAll("g.bars").remove()
+
+    // Show the bars
+    svg.append("g")
+        .attr("class", "bars")
+        .selectAll("g")
+        // Enter in data = loop group per group
+        .data(data)
+        .join("g")
+        .attr("transform", d => `translate(${xScale(d.group)}, 0)`) 
+        .selectAll("rect")
+        .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key], group: d.group}; }); })
+        .join("rect")
+        .on('mouseenter', function (actual, i) {
+            // Bar selection animation
+            d3.select(this)
+                .attr('opacity', 0)
+            d3.select(this)
+                .transition()
+                .duration(300)
+                .attr('opacity', 1)
+            
+            if (i.value !== -1) {
+                // Get bar height
+                const y = yScale(i.value)
+
+                // Show line
+                svg.append('line')
+                    .attr('id', 'limit')
+                    .attr('x1', 0)
+                    .attr('y1', y)
+                    .attr('x2', width - 140 - margin)
+                    .attr('y2', y)
+                
+                // Show bar value
+                svg.append('text')
+                    .attr('class', 'value')
+                    .style('fill', 'white')
+                    .attr('x', (a) => {return xScale(i.group) + xSubgroup(i.key) + xSubgroup.bandwidth() / 2 })
+                    .attr('y', (a) => y - 8)
+                    .attr('text-anchor', 'middle')
+                    .text((a, idx) => {
+                        return i.value;
+                    })
+            } else {
+                // Show bar value
+                svg.append('text')
+                    .attr('class', 'value')
+                    .style('fill', 'white')
+                    .attr('x', (a) => {return xScale(i.group) + xSubgroup(i.key) + xSubgroup.bandwidth() / 2 })
+                    .attr('y', (a) => -8 )
+                    .attr('text-anchor', 'middle')
+                    .text((a, idx) => {
+                        return "Não disponivel";
+                    })
+            }
+        })
+        .on('mouseleave', function () {
+            // Remove line and value
+            svg.selectAll('#limit').remove()
+            svg.selectAll('.value').remove()
+        })
+        .attr("x", d => xSubgroup(d.key))
+        .attr("y", d => { 
+            if (d.value === 0 || d.value === -1) {
+                return 0
+            } else {
+                console.log(yScale.domain())
+                console.log(yScale(d.value))
+                console.log(d.value)
+                return yScale(d.value)
+            }
+        })
+        .transition()
+        .duration(1000)
+        .attr("width", xSubgroup.bandwidth())
+        .attr("height", d => { 
+            if (d.value === 0) {
+                return 0
+            } else if (d.value === -1) {
+                return height
+            } else {
+                return height - yScale(d.value) 
+            }
+        })
+        .attr("fill", d => {
+            if (d.value === -1) {
+                return t.url()
+            }
+            return color(d.key)
+        })
+        .style("opacity", d => { 
+            if (d.value === -1) {
+                return "0.5";
+            } else {
+                return "1";
+            }
+        })
+        
+    svg.append("rect")
+        .style("fill", "#e41a1c")
+        .attr("x", width + 20 )
+        .attr("y", 10)
+        .attr("width", 15)
+        .attr("height", 15)
+    svg.append('text')
+        .attr('x', width + 40)
+        .attr('y', 20)
+        .attr('text-anchor', 'start')
+        .text("Total")
+
+    svg.append("rect")
+        .style("fill", "#377eb8")
+        .attr("x", width + 20 )
+        .attr("y", 40)
+        .attr("width", 15)
+        .attr("height", 15)
+    svg.append('text')
+        .attr('x', width + 40)
+        .attr('y', 50)
+        .attr('text-anchor', 'start')
+        .text("Hospitais")
+
+    svg.append("rect")
+        .style("fill", "#4daf4a")
+        .attr("x", width + 20 )
+        .attr("y", 70)
+        .attr("width", 15)
+        .attr("height", 15)
+    svg.append('text')
+        .attr('x', width + 40)
+        .attr('y', 80)
+        .attr('text-anchor', 'start')
+        .text("Centros de Saúde")
+
+    svg.append("rect")
+        .style("fill", t.url())
+        .style("opacity", "0.5")
+        .style("stroke", "lightgrey")
+        .attr("x", width + 20 )
+        .attr("y", 100)
+        .attr("width", 15)
+        .attr("height", 15)
+    svg.append('text')
+        .attr('x', width + 40)
+        .attr('y', 110)
+        .attr('text-anchor', 'start')
+        .text("Não disponível")
+
 }
 
 
@@ -199,7 +460,7 @@ function loadTitles(svg, titleY, titleX, title, source) {
     svg.append('text')
         .attr('class', 'label')
         .attr('x', -(height / 2) - margin)
-        .attr('y', margin / 2.4 - 60)
+        .attr('y', margin / 2.4 - 55)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
         .text(titleY)
@@ -216,7 +477,7 @@ function loadTitles(svg, titleY, titleX, title, source) {
     svg.append('text')
         .attr('class', 'title')
         .attr('x', width / 2 + margin)
-        .attr('y', -10)
+        .attr('y', -40)
         .attr('text-anchor', 'middle')
         .text(title)
 
