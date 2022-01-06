@@ -1,7 +1,14 @@
 checked_dict = {
     "Total": true,
-    "NE": false,
-    "Cirurgia Geral": false
+    "NE": true,
+    "Cirurgia Geral": true,
+    "Ginecologia e Obstetrícia": true,
+    "Medicina Geral e Familiar": true,
+    "Oftalmologia": true,
+    "Ortopedia": true,
+    "Pediatria": true,
+    "Psiquiatria": true,
+    "Outras": true
 }
 
 function loadInitialHealth() {
@@ -10,12 +17,12 @@ function loadInitialHealth() {
         Consultas, Internamentos, Urgencias Three Bar chart
     */
     // set the dimensions and margins of the graph
-    const margin = 80; 
+    margin = 80; 
     width = document.getElementById("container2").offsetWidth - margin - margin - 60;
     height = 400 - margin - margin;
 
     // append the svg object to the body of the page
-    const svg = d3.select("#tree_bars_graph")
+    const three_bar_svg = d3.select("#tree_bars_graph")
                     .attr("width", width + margin + margin + 60 )
                     .attr("height", height + margin + margin)
                 .append("g")
@@ -36,14 +43,14 @@ function loadInitialHealth() {
     const groups = data.map(d => d.group)
 
     // Add X axis
-    const xScale = d3.scaleBand()
+    const three_bars_xScale = d3.scaleBand()
         .domain(groups)
         .range([0, width])
         .padding([0.2])
-    svg.append("g")
+    three_bar_svg.append("g")
         .attr("class", "xLabels")
         .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(xScale).tickPadding(10).tickSize(0))
+        .call(d3.axisBottom(three_bars_xScale).tickPadding(10).tickSize(0))
         
         
 
@@ -58,20 +65,20 @@ function loadInitialHealth() {
     }
 
     // Add Y axis
-    const yScale = d3.scaleLog().base(2)
+    const three_bars_yScale = d3.scaleLog().base(2)
         .domain([1, domain_limit ])
         .range([ height, 0 ]);
-    var yAxis = svg.append("g")
-            .call(d3.axisLeft(yScale));
+    var yAxis = three_bar_svg.append("g")
+            .call(d3.axisLeft(three_bars_yScale));
 
     // Another scale for subgroup position?
     const xSubgroup = d3.scaleBand()
         .domain(subgroups)
-        .range([0, xScale.bandwidth()])
+        .range([0, three_bars_xScale.bandwidth()])
         .padding([0.05])
 
     // color palette = one color per subgroup
-    const color = d3.scaleOrdinal()
+    const three_bars_color = d3.scaleOrdinal()
         .domain(subgroups)
         .range(['#e41a1c','#377eb8','#4daf4a'])
     
@@ -80,78 +87,139 @@ function loadInitialHealth() {
         .on('change', function() {
         year = this.value;
         new_data = three_bar_data[year];
-        update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, new_data)
+        update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, yAxis, xSubgroup, three_bars_color, new_data)
     });
     
-    update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, data)
-    loadTitles(svg, "Número de ocorrências", "", "Consultas, Internamentos e Urgências", "Fonte: PORDATA, 2021")
+    update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, yAxis, xSubgroup, three_bars_color, data)
+    loadTitles(three_bar_svg, "Número de ocorrências", "", "Consultas, Internamentos e Urgências", "Fonte: PORDATA, 2021")
 
 
 
-    createGraph(checked_dict)
 
-    /*
-    // This allows to find the closest X index of the mouse:
-    var bisect = d3.bisector(function(d) { return d.year; }).left;
-
-    // Create the circle that travels along the curve of chart
-    var focus = medics_by_speciality_svg
-    .append('g')
-    .append('circle')
-        .style("fill", "none")
-        .attr("stroke", "black")
-        .attr('r', 8.5)
+    // create a tooltip
+    var tooltip = d3.select("#container3")
+        .append("div")
         .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute")
 
-    // Create the text that travels along the curve of chart
-    var focusText = medics_by_speciality_svg
-    .append('g')
-    .append('text')
-        .style("opacity", 0)
-        .attr("text-anchor", "left")
-        .attr("alignment-baseline", "middle")
+
+    // Graphs Dimensions
+    margin = 80;
+    width = 700 - margin ;
+    height = 400 - margin - margin;
+
+    // Get the data from the total medicos (Initial State)
+    initial_data = medicsspeciality_data["Total"];
+
+    var medics_by_speciality_svg = d3.select("#medics_by_speciality_graph")
+        .attr("width", width + margin + margin)
+        .attr("height", height + margin + margin)
+        .append("g")
+        .attr("transform", `translate(${margin},${margin})`);
+
+
+    // Add X axis 
+    const xScale = d3.scaleLinear()
+        .range([ 0, width ])
+        .domain([1990, 2020])
+
+    var xAxis = medics_by_speciality_svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .transition()
+        .duration(1000)
+        .call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
+
+
+    // Add Y axis
+    const yScale = d3.scaleLog().base(2)
+        .range([ height, 0 ])
+    
+    var yAxis = medics_by_speciality_svg.append("g")
+        .attr("class", "eixoy")
+
+    var color = d3.scaleOrdinal()
+        .domain("Total",
+                "NE",
+                "Cirurgia Geral",
+                "Ginecologia e Obstetrícia",
+                "Medicina Geral e Familiar",
+                "Oftalmologia",
+                "Ortopedia",
+                "Pediatria",
+                "Psiquiatria",
+                "Outras")
+        .range(['#63f5e1','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#053d3f','#999999', 'lightyellow', 'lightpink'])
     
 
+    // Add event when user changes the selected year
+    d3.selectAll('.form-check-input')
+        .on('change', function(event) {
+            target_id = event.currentTarget.id
+            target_checked = event.currentTarget.checked
 
-    // Create a rect on top of the svg area: this rectangle recovers mouse position
-    medics_by_speciality_svg
-        .append('rect')
-        .style("fill", "none")
-        .style("pointer-events", "all")
-        .attr('width', width)
-        .attr('height', height)
-        .on('mouseover', mouseover)
-        .on('mousemove', mousemove)
-        .on('mouseout', mouseout);
+            switch (target_id) {
+                case "totalMedicosSwitch":
+                    checked_dict["Total"] = target_checked
+                    break;
+            
+                case "naoEspecialistasSwitch":
+                    checked_dict["NE"] = target_checked
+                    break;
+        
+                case "cirurgiaGeralSwitch":
+                    checked_dict["Cirurgia Geral"] = target_checked
+                    break;
+                
+                case "estomatologiaSwitch":
+                    checked_dict["Estomatologia"] = target_checked
+                    break;
 
+                case "ginecologiaObstetriciaSwitch":
+                    checked_dict["Ginecologia e Obstetrícia"] = target_checked
+                    break;
 
-    
-    // What happens when the mouse move -> show the annotations at the right positions.
-    function mouseover() {
-        focus.style("opacity", 1)
-        focusText.style("opacity",1)
-    }
+                case "medicinaGeralFamiliarSwitch":
+                    checked_dict["Medicina Geral e Familiar"] = target_checked
+                    break;
+                
+                case "oftalmologiaSwitch":
+                    checked_dict["Oftalmologia"] = target_checked
+                    break;
+                
+                case "ortopediaSwitch":
+                    checked_dict["Ortopedia"] = target_checked
+                    break;
+                
+                case "pediatriaSwitch":
+                    checked_dict["Pediatria"] = target_checked
+                    break;
 
-    function mousemove(mouse) {
-        // recover coordinate we need
-        var x0 = xScale.invert(d3.pointer(mouse)[0]);
-        var i = bisect(medics_by_speciality_data, x0, 1);
-        selectedData = medics_by_speciality_data[i]
-        focus
-        .attr("cx", xScale(selectedData.year))
-        .attr("cy", yScale(selectedData.value))
-        focusText
-        .html(selectedData.year + "  -  " + selectedData.value)
-        .attr("x", xScale(selectedData.year)+15 )
-        .attr("y", yScale(selectedData.value))
-        }
-    function mouseout() {
-        focus.style("opacity", 0)
-        focusText.style("opacity", 0)
-    }
-    */
-    
+                case "psiquiatriaSwitch":
+                    checked_dict["Psiquiatria"] = target_checked
+                    break;
+
+                case "outrasSwitch":
+                    checked_dict["Outras"] = target_checked
+                    break;
+
+                default:
+                    break;
+            }
+        
+            createGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAxis, color, tooltip)
+            
+    });
+
+    createGraph(checked_dict, medics_by_speciality_svg,  xScale, yScale, yAxis, color, tooltip)
+
 }
+    
 
 
 
@@ -164,9 +232,9 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
 
 
     svg.call(t);
-    total_data_max_value = d3.max(data, function(d) { console.log(d); return +d.total })
-    hospitals_data_max_value = d3.max(data, function(d) { console.log(d); return +d.hospitais })
-    centros_data_max_value = d3.max(data, function(d) { console.log(d); return +d.centros_de_saude })
+    total_data_max_value = d3.max(data, function(d) { return +d.total })
+    hospitals_data_max_value = d3.max(data, function(d) { return +d.hospitais })
+    centros_data_max_value = d3.max(data, function(d) { return +d.centros_de_saude })
     data_max_value = Math.max(total_data_max_value, hospitals_data_max_value, centros_data_max_value)
     power_value = 0
     while (true) {
@@ -248,9 +316,6 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
             if (d.value === 0 || d.value === -1) {
                 return 0
             } else {
-                console.log(yScale.domain())
-                console.log(yScale(d.value))
-                console.log(d.value)
                 return yScale(d.value)
             }
         })
@@ -336,42 +401,10 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
 
 
 
+function createGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAxis, color, tooltip) {
 
-
-
-function handleChangedSwitch(event) {
-
-    target_id = event.currentTarget.id
-    target_checked = event.currentTarget.checked
-
-    switch (target_id) {
-        case "totalMedicosSwitch":
-            checked_dict["Total"] = target_checked
-            break;
-    
-        case "naoEspecialistasSwitch":
-            checked_dict["NE"] = target_checked
-            break;
-
-        case "cirurgiaGeralSwitch":
-            checked_dict["Cirurgia Geral"] = target_checked
-            break;
-
-        default:
-            break;
-    }
-
-    createGraph(checked_dict)
-}
-
-
-
-function createGraph(checked_dict) {
-
-    // Graphs Dimensions
-    margin = 80;
-    width = 700 - margin - margin;
-    height = 400 - margin - margin;
+    medics_by_speciality_svg.selectAll(".graphLine").remove()
+    medics_by_speciality_svg.selectAll("circle").remove()
 
     data = {}
     y_min = undefined
@@ -393,48 +426,34 @@ function createGraph(checked_dict) {
         }
     
     }
+
+    power_value = 0
+    while (true) {
+        if (2 ** power_value > y_max ) {
+            domain_limit = 2 ** power_value
+            break;
+        }
+        power_value += 1
+    }
+
+    yScale.domain([ (y_min == 0 ? 1 : y_min), domain_limit])
+    yAxis.transition().duration(1000).call(d3.axisLeft(yScale))
     
-    var medics_by_speciality_svg = d3.select("#medics_by_speciality_graph")
-
-    medics_by_speciality_svg.selectAll("g").remove()
-
-    // append the svg object to the body of the page
-    medics_by_speciality_svg = d3.select("#medics_by_speciality_graph")
-        .attr("width", width + margin + margin)
-        .attr("height", height + margin + margin)
-        .append("g")
-        .attr("transform", `translate(${margin},${margin})`);
-
-    // Add X axis 
-    const xScale = d3.scaleLinear()
-        .range([ 0, width ])
-        .domain([1990, 2020])
-
-    var xAxis = medics_by_speciality_svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
-
-
-    // Add Y axis
-    const yScale = d3.scaleLinear()
-        .domain([   
-                0, 
-                y_max
-                ])
-        .range([ height, 0 ]);
-    
-    var yAxis = medics_by_speciality_svg.append("g")
-        .call(d3.axisLeft(yScale));
-
-    //medics_by_speciality_svg.selectAll(".graphLine").remove()
 
     for (const key of Object.keys(checked_dict)) {
 
         if (checked_dict[key]) {
 
+            const circleGroups = medics_by_speciality_svg.selectAll()
+                .data(data[key])
+                .enter()
+                .append('g')
+
             // Add the line
             medics_by_speciality_svg.append("path")
                 .datum(data[key])
+                .transition()
+                .duration(1500)
                 .attr("class", "graphLine")
                 .attr("fill", "none")
                 .attr("stroke", "steelblue")
@@ -442,7 +461,63 @@ function createGraph(checked_dict) {
                 .attr("d", d3.line()
                     .x(function(d) { return xScale(d.year) })
                     .y(function(d) { return yScale(d.value) })
+                    
                     )
+                
+                .attr("stroke", color(key))
+
+
+            
+            // Circles
+            circleGroups.append("circle")
+                .attr("cx", function(d) { return xScale(d.year); })
+                .attr("cy", function(d) { return yScale(d.value); })
+                .attr("r", "2.5")
+                .style("fill", "#69b3a2")
+                .attr("stroke", "none")
+
+                .on('mouseenter', function (actual, i) {
+                    d3.select(this)
+                        .attr('opacity', 0)
+                        
+                    d3.select(this)
+                        .transition()
+                        .duration(300)
+                        .attr('opacity', 1)
+                    
+                    tooltip
+                        .style("opacity", 1)
+                    d3.select(this)
+                        .style("stroke", "black")
+                        .style("opacity", 1)
+                
+                    })
+
+                .on('mousemove', function(mouse, d) {
+                    tooltip
+                        .html("Especialidade: " + key + "<br>Ano: " + d.year + "<br>Valor: " + d.value)
+                        .style("left", margin/2 + d3.pointer(mouse)[0] + 80 + "px")
+                        .style("top", d3.pointer(mouse)[1] - 10 + "px")
+                        .style("color", "black")
+                    })
+                
+                // On mouse leave, remove the line and the bar value
+                .on('mouseleave', function () {
+                    d3.select(this)
+
+                    medics_by_speciality_svg.selectAll('#limit').remove()
+                    medics_by_speciality_svg.selectAll('.value').remove()
+
+                    tooltip
+                    .style("opacity", 0)
+                    d3.select(this)
+                    .style("stroke", "none")
+                    .style("opacity", 1)
+                })
+
+
+
+
         }
     
     }
