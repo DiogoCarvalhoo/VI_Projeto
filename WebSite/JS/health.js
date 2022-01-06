@@ -68,7 +68,7 @@ function loadInitialHealth() {
     const three_bars_yScale = d3.scaleLog().base(2)
         .domain([1, domain_limit ])
         .range([ height, 0 ]);
-    var yAxis = three_bar_svg.append("g")
+    var three_bars_yAxis = three_bar_svg.append("g")
             .call(d3.axisLeft(three_bars_yScale));
 
     // Another scale for subgroup position?
@@ -87,10 +87,10 @@ function loadInitialHealth() {
         .on('change', function() {
         year = this.value;
         new_data = three_bar_data[year];
-        update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, yAxis, xSubgroup, three_bars_color, new_data)
+        update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, three_bars_yAxis, xSubgroup, three_bars_color, new_data)
     });
     
-    update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, yAxis, xSubgroup, three_bars_color, data)
+    update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, three_bars_yAxis, xSubgroup, three_bars_color, data)
     loadTitles(three_bar_svg, "Número de ocorrências", "", "Consultas, Internamentos e Urgências", "Fonte: PORDATA, 2021")
 
 
@@ -244,7 +244,7 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
         }
         power_value += 1
     }
-
+    
     // Add Y axis
     yScale.domain([1, domain_limit ]);
     yAxis.transition().duration(1000).call(d3.axisLeft(yScale));
