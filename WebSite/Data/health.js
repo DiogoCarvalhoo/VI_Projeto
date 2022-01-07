@@ -372,6 +372,96 @@
 
 
 
+var beds_per_year_data = { 
+    "Hospitais Gerais": 
+    [   
+        {'year': 1994, 'value': 22082},
+        {'year': 1995, 'value': 22213},
+        {'year': 1996, 'value': 22332},
+        {'year': 1997, 'value': 22149},
+        {'year': 1998, 'value': 22077},
+        {'year': 1999, 'value': 22590},
+        {'year': 2000, 'value': 22842},
+        {'year': 2001, 'value': 22665},
+        {'year': 2002, 'value': 22481},
+        {'year': 2003, 'value': 22574},
+        {'year': 2004, 'value': 22047},
+        {'year': 2005, 'value': 22339},
+        {'year': 2006, 'value': 21953},
+        {'year': 2007, 'value': 21878},
+        {'year': 2008, 'value': 21594},
+        {'year': 2009, 'value': 21443},
+        {'year': 2010, 'value': 20946},
+        {'year': 2011, 'value': 20598},
+        {'year': 2012, 'value': 21526},
+        {'year': 2013, 'value': 20746},
+        {'year': 2014, 'value': 20108},
+        {'year': 2015, 'value': 19999},
+        {'year': 2016, 'value': 20098},
+        {'year': 2017, 'value': 20066},
+        {'year': 2018, 'value': 19930},
+        {'year': 2019, 'value': 20496},
+        {'year': 2020, 'value': 21236}
+    ],
+    "Hospitais Especializados":
+    [
+        {'year': 1994, 'value': 5280},
+        {'year': 1995, 'value': 5258},
+        {'year': 1996, 'value': 5501},
+        {'year': 1997, 'value': 5264},
+        {'year': 1998, 'value': 4897},
+        {'year': 1999, 'value': 4737},
+        {'year': 2000, 'value': 4358},
+        {'year': 2001, 'value': 4268},
+        {'year': 2002, 'value': 3732},
+        {'year': 2003, 'value': 3447},
+        {'year': 2004, 'value': 3932},
+        {'year': 2005, 'value': 3454},
+        {'year': 2006, 'value': 3227},
+        {'year': 2007, 'value': 2969},
+        {'year': 2008, 'value': 2620},
+        {'year': 2009, 'value': 2424},
+        {'year': 2010, 'value': 2916},
+        {'year': 2011, 'value': 2995},
+        {'year': 2012, 'value': 2092},
+        {'year': 2013, 'value': 2204},
+        {'year': 2014, 'value': 2224},
+        {'year': 2015, 'value': 2063},
+        {'year': 2016, 'value': 2021},
+        {'year': 2017, 'value': 2026},
+        {'year': 2018, 'value': 2159},
+        {'year': 2019, 'value': 1862},
+        {'year': 2020, 'value': 1876}
+    ],
+    "Centros de Saúde":
+    [
+        {'year': 1990, 'value': 2831},
+        {'year': 1991, 'value': 2552},
+        {'year': 1992, 'value': 2276},
+        {'year': 1993, 'value': 1998},
+        {'year': 1994, 'value': 1831},
+        {'year': 1995, 'value': 1701},
+        {'year': 1996, 'value': 1531},
+        {'year': 1997, 'value': 1529},
+        {'year': 1998, 'value': 1350},
+        {'year': 1999, 'value': 1208},
+        {'year': 2000, 'value': 1081},
+        {'year': 2001, 'value': 940},
+        {'year': 2002, 'value': 886},
+        {'year': 2003, 'value': 835},
+        {'year': 2004, 'value': 779},
+        {'year': 2005, 'value': 678},
+        {'year': 2006, 'value': 573},
+        {'year': 2007, 'value': 355},
+        {'year': 2008, 'value': 253},
+        {'year': 2009, 'value': 186},
+        {'year': 2010, 'value': 97},
+        {'year': 2011, 'value': 43},
+        {'year': 2012, 'value': 24}
+    ]
+}
+
+
 var three_bar_data = {
     1994: [
         {group: "Consultas", total: 29534, hospitais: 5384, centros_de_saude: 24150},

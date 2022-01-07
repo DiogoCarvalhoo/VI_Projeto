@@ -14,6 +14,17 @@ checked_dict = {
 function loadInitialHealth() {
 
     /*
+        beds per year graph
+    */
+   create_beds_per_year_graph()
+    /*
+        End of beds per year graph
+    */
+
+
+
+
+    /*
         Consultas, Internamentos, Urgencias Three Bar chart
     */
     // set the dimensions and margins of the graph
@@ -21,15 +32,11 @@ function loadInitialHealth() {
     width = document.getElementById("container2").offsetWidth - margin - margin - 60;
     height = 400 - margin - margin;
 
-    // append the svg object to the body of the page
     const three_bar_svg = d3.select("#tree_bars_graph")
                     .attr("width", width + margin + margin + 60 )
                     .attr("height", height + margin + margin)
                 .append("g")
                     .attr("transform",`translate(${margin},${margin})`);
-
-    // Parse the Data
-    data = three_bar_data[1999]
 
     // Get selected year
     selected_histogram_year = document.getElementById("three_bars_year_selection").value;
@@ -51,7 +58,6 @@ function loadInitialHealth() {
         .attr("class", "xLabels")
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(three_bars_xScale).tickPadding(10).tickSize(0))
-        
         
 
     data_max_value = d3.max(data, function(d) { return +d.total })
@@ -92,7 +98,9 @@ function loadInitialHealth() {
     
     update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, three_bars_yAxis, xSubgroup, three_bars_color, data)
     loadTitles(three_bar_svg, "Número de ocorrências", "", "Consultas, Internamentos e Urgências", "Fonte: PORDATA, 2021")
-
+    /*
+        End of Consultas, Internamentos, Urgencias Three Bar chart
+    */
 
 
 
@@ -221,6 +229,172 @@ function loadInitialHealth() {
 }
     
 
+function create_beds_per_year_graph() {
+    // create a tooltip
+    var beds_year_tooltip = d3.select("#container1")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute")
+
+    margin = 80; 
+    width = document.getElementById("container1").offsetWidth - margin - margin - 60;
+    height = 400 - margin - margin;
+
+    const beds_year_svg = d3.select("#beds_per_year_graph")
+                    .attr("width", width + margin + margin + 60 )
+                    .attr("height", height + margin + margin)
+                .append("g")
+                    .attr("transform",`translate(${margin},${margin})`);
+
+    data = beds_per_year_data["Hospitais Gerais"]
+
+    // Add X axis 
+    const beds_year_xScale = d3.scaleLinear()
+        .range([ 0, width ])
+        .domain([1990, 2020])
+
+    var beds_year_xAxis = beds_year_svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .transition()
+        .duration(1000)
+        .call(d3.axisBottom(beds_year_xScale).tickFormat(d3.format("d")))
+
+
+    // Add Y axis
+    const beds_year_yScale = d3.scaleLinear()
+        .domain([0, 25000])
+        .range([ height, 0 ])
+    
+    var beds_year_yAxis = beds_year_svg.append("g")
+        .call(d3.axisLeft(beds_year_yScale));
+
+    var beds_year_color = d3.scaleOrdinal()
+        .domain("Hospitais Gerais",
+                "Hospitais Especializados",
+                "Centros de saúde")
+        .range(['#63f5e1','#377eb8','#4daf4a'])
+    
+    types_of_institutes = ["Hospitais Gerais", "Hospitais Especializados", "Centros de Saúde"]
+
+    for (index = 0; index < types_of_institutes.length; index++) {
+        const beds_year_circle_groups = beds_year_svg.selectAll()
+                .data(beds_per_year_data[types_of_institutes[index]])
+                .enter()
+                .append('g')
+
+        // Add the line
+        beds_year_svg.append("path")
+            .datum(beds_per_year_data[types_of_institutes[index]])
+            .transition()
+            .duration(1500)
+            .attr("class", "graphLine")
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function(d) { return beds_year_xScale(d.year) })
+                .y(function(d) { return beds_year_yScale(d.value) })
+            )
+            .attr("stroke", beds_year_color(types_of_institutes[index]))
+
+        // Circles
+        beds_year_circle_groups.append("circle")
+        .attr("cx", function(d) { return beds_year_xScale(d.year); })
+        .attr("cy", function(d) { return beds_year_yScale(d.value); })
+        .attr("r", "2.5")
+        .style("fill", "#69b3a2")
+        .attr("stroke", "none")
+
+        .on('mouseenter', function (actual, i) {
+            d3.select(this)
+                .attr('opacity', 0)
+                
+            d3.select(this)
+                .transition()
+                .duration(300)
+                .attr('opacity', 1)
+            
+            beds_year_tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("opacity", 1)
+        
+            })
+
+        .on('mousemove', function(mouse, d) {
+            beds_year_tooltip
+                .html("Ano: " + d.year + "<br>Valor: " + d.value)
+                .style("left", margin/2 + d3.pointer(mouse)[0] + 40 + "px")
+                .style("top", d3.pointer(mouse)[1] + "px")
+                .style("color", "black")
+            })
+        
+        // On mouse leave, remove the line and the bar value
+        .on('mouseleave', function () {
+            d3.select(this)
+
+            medics_by_speciality_svg.selectAll('#limit').remove()
+            medics_by_speciality_svg.selectAll('.value').remove()
+
+            beds_year_tooltip
+            .style("opacity", 0)
+            d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 1)
+        })
+    }
+    
+    beds_year_svg.append("rect")
+        .style("fill", beds_year_color("Hospitais Gerais"))
+        .attr("x", width + 20 )
+        .attr("y", 10)
+        .attr("width", 15)
+        .attr("height", 15)
+    beds_year_svg.append('text')
+        .attr('x', width + 40)
+        .attr('y', 20)
+        .attr('text-anchor', 'start')
+        .text("Hospitais Gerais")
+
+    beds_year_svg.append("rect")
+        .style("fill", beds_year_color("Hospitais Especializados"))
+        .attr("x", width + 20 )
+        .attr("y", 40)
+        .attr("width", 15)
+        .attr("height", 15)
+    beds_year_svg.append('text')
+        .attr('x', width + 40)
+        .attr('y', 45)
+        .attr('text-anchor', 'start')
+        .text("Hospitais")
+    beds_year_svg.append("text")
+        .attr('x', width + 40)
+        .attr('y', 45)
+        .attr("dy", "1.5em")
+        .attr('text-anchor', 'start')
+        .text("Especializados")
+
+    beds_year_svg.append("rect")
+        .style("fill", beds_year_color("Centros de Saúde"))
+        .attr("x", width + 20 )
+        .attr("y", 70)
+        .attr("width", 15)
+        .attr("height", 15)
+    beds_year_svg.append('text')
+        .attr('x', width + 40)
+        .attr('y', 80)
+        .attr('text-anchor', 'start')
+        .text("Centros de Saúde")
+
+    loadTitles(beds_year_svg, "Número de camas", "Ano", "Número de camas por estabelecimento", "Fonte: PORDATA, 2021")
+}
 
 
 
@@ -244,7 +418,7 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
         }
         power_value += 1
     }
-    
+
     // Add Y axis
     yScale.domain([1, domain_limit ]);
     yAxis.transition().duration(1000).call(d3.axisLeft(yScale));
@@ -565,3 +739,5 @@ function loadTitles(svg, titleY, titleX, title, source) {
         .text(source)
 
 }
+
+
