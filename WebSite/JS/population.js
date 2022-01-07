@@ -116,7 +116,6 @@ function loadInitialPopulation() {
     height = 400 - 2* margin
     const radius = Math.min(width, height) / 2 ;
 
-    console.log(document.getElementById("container3").offsetHeight)
     svg_pie_chart = d3.select("#gender_population_graph")
           .attr("width", width + margin + margin)
           .attr("height", height + margin + margin);
@@ -404,10 +403,13 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
             svg_dot_graph.selectAll('.value').remove()
 
             dot_graph_Tooltip
-            .style("opacity", 0)
+                .style("opacity", 0)
+                .style("left", "0px")
+                .style("top", "0px")
+        
             d3.select(this)
-            .style("stroke", "none")
-            .style("opacity", 1)
+                .style("stroke", "none")
+                .style("opacity", 1)
         })
 
             
@@ -471,6 +473,9 @@ function portugal_map() {
     var mouseleave = function(d) {
         Tooltip
             .style("opacity", 0)
+            .style("left", "0px")
+            .style("top", "0px")
+
         d3.select(this)
             .style("stroke", "none")
     }
@@ -683,6 +688,9 @@ async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color, pi
         .on('mouseleave', function () {
             piechart_Tooltip
                 .style("opacity", 0)
+                .style("left", "0px")
+                .style("top", "0px")
+
             d3.select(this)
                 .style("stroke", "white")
                 .style("stroke-width", "2px")

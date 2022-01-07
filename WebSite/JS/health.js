@@ -93,9 +93,14 @@ function loadInitialHealth() {
     update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, three_bars_yAxis, xSubgroup, three_bars_color, data)
     loadTitles(three_bar_svg, "Número de ocorrências", "", "Consultas, Internamentos e Urgências", "Fonte: PORDATA, 2021")
 
+    /*
+       End of Consultas, Internamentos, Urgencias Three Bar chart
+    */
 
 
-
+    /*
+        Medics By Speciality Multi Line Graph
+    */
     // create a tooltip
     var tooltip = d3.select("#container3")
         .append("div")
@@ -212,11 +217,12 @@ function loadInitialHealth() {
                     break;
             }
         
-            createGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAxis, color, tooltip)
+            createMedicsBySpecialityGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAxis, color, tooltip)
             
     });
 
-    createGraph(checked_dict, medics_by_speciality_svg,  xScale, yScale, yAxis, color, tooltip)
+    createMedicsBySpecialityGraph(checked_dict, medics_by_speciality_svg,  xScale, yScale, yAxis, color, tooltip)
+    loadTitles(medics_by_speciality_svg, "Número de Médicos", "Ano", "Número de médicos por especialidade", "Fonte: PORDATA, 2021")
 
 }
     
@@ -227,8 +233,8 @@ function loadInitialHealth() {
 function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, data) {
     
     var t = textures.lines()
-    .orientation("3/8")
-    .stroke("lightgrey");
+        .orientation("3/8")
+        .stroke("lightgrey");
 
 
     svg.call(t);
@@ -401,7 +407,7 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
 
 
 
-function createGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAxis, color, tooltip) {
+function createMedicsBySpecialityGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAxis, color, tooltip) {
 
     medics_by_speciality_svg.selectAll(".graphLine").remove()
     medics_by_speciality_svg.selectAll("circle").remove()
@@ -428,12 +434,17 @@ function createGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAx
     }
 
     power_value = 0
-    while (true) {
-        if (2 ** power_value > y_max ) {
-            domain_limit = 2 ** power_value
-            break;
+
+    if (y_max == undefined) {
+        domain_limit = 1
+    } else {
+        while (true) {
+            if (2 ** power_value > y_max ) {
+                domain_limit = 2 ** power_value
+                break;
+            }
+            power_value += 1
         }
-        power_value += 1
     }
 
     yScale.domain([ (y_min == 0 ? 1 : y_min), domain_limit])
@@ -449,30 +460,12 @@ function createGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAx
                 .enter()
                 .append('g')
 
-            // Add the line
-            medics_by_speciality_svg.append("path")
-                .datum(data[key])
-                .transition()
-                .duration(1500)
-                .attr("class", "graphLine")
-                .attr("fill", "none")
-                .attr("stroke", "steelblue")
-                .attr("stroke-width", 1.5)
-                .attr("d", d3.line()
-                    .x(function(d) { return xScale(d.year) })
-                    .y(function(d) { return yScale(d.value) })
-                    
-                    )
-                
-                .attr("stroke", color(key))
-
-
             
             // Circles
             circleGroups.append("circle")
                 .attr("cx", function(d) { return xScale(d.year); })
                 .attr("cy", function(d) { return yScale(d.value); })
-                .attr("r", "2.5")
+                .attr("r", "3")
                 .style("fill", "#69b3a2")
                 .attr("stroke", "none")
 
@@ -484,9 +477,11 @@ function createGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAx
                         .transition()
                         .duration(300)
                         .attr('opacity', 1)
+
                     
                     tooltip
                         .style("opacity", 1)
+
                     d3.select(this)
                         .style("stroke", "black")
                         .style("opacity", 1)
@@ -509,20 +504,37 @@ function createGraph(checked_dict, medics_by_speciality_svg, xScale, yScale, yAx
                     medics_by_speciality_svg.selectAll('.value').remove()
 
                     tooltip
-                    .style("opacity", 0)
+                        .style("opacity", 0)
+                        .style("left", "0px")
+                        .style("top", "0px")
                     d3.select(this)
-                    .style("stroke", "none")
-                    .style("opacity", 1)
+                        .style("stroke", "none")
+                        .style("opacity", 1)
                 })
 
+
+                // Add the line
+                medics_by_speciality_svg.append("path")
+                    .datum(data[key])
+                    .transition()
+                    .duration(1500)
+                    .attr("class", "graphLine")
+                    .attr("fill", "none")
+                    .attr("stroke", "steelblue")
+                    .attr("stroke-width", 1.5)
+                    .attr("d", d3.line()
+                        .x(function(d) { return xScale(d.year) })
+                        .y(function(d) { return yScale(d.value) })
+                        
+                        )
+                    
+                    .attr("stroke", color(key))
 
 
 
         }
     
     }
-
-    loadTitles(medics_by_speciality_svg, "Número de Médicos", "Ano", "Número de médicos por especialidade", "Fonte: PORDATA, 2021")
 }
 
 

@@ -15,9 +15,13 @@ function main(page) {
         break;
       
       case "health":
-        loadInitialHealth()
+        loadInitialHealth();
         break;
 
+      case "education":
+        loadInitialEducation();
+        break;
+        
       default:
         break;
     }
