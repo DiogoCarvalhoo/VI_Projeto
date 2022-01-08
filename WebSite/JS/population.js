@@ -462,7 +462,7 @@ function portugal_map() {
         pos["x"] += d3.pointer(event)[0]
         pos["y"] += d3.pointer(event)[1]
         
-        Tooltip.html("Distrito: " + i.properties.name + "<br>Densidade: " + population_density[i.properties.name])
+        Tooltip.html("Distrito: " + i.properties.name + "<br>Densidade: " + population_density[i.properties.name] + " hab/km²")
             .style("left", pos["x"] - 60 + "px")
             .style(
                 "top",
@@ -575,10 +575,11 @@ function portugal_map() {
         .attr("width", 15)
         .attr("height", 15)
     svg.append('text')
+        .style("font-size", "13px")
         .attr('x', 100)
         .attr('y', 580)
         .attr('text-anchor', 'start')
-        .text("[0, 75]")
+        .text("[ 0, 75 ]")
 
     svg.append("rect")
         .style("fill", "#bfbfbf")
@@ -587,10 +588,11 @@ function portugal_map() {
         .attr("width", 15)
         .attr("height", 15)
     svg.append('text')
+        .style("font-size", "13px")
         .attr('x', 100)
         .attr('y', 600)
         .attr('text-anchor', 'start')
-        .text("[75, 150[")
+        .text("[ 75, 150 [")
 
     svg.append("rect")
         .style("fill", "#999999")
@@ -599,10 +601,11 @@ function portugal_map() {
         .attr("width", 15)
         .attr("height", 15)
     svg.append('text')
+        .style("font-size", "13px")
         .attr('x', 100)
         .attr('y', 620)
         .attr('text-anchor', 'start')
-        .text("[150, 300[")
+        .text("[ 150, 300 [")
 
     svg.append("rect")
         .style("fill", "#737373")
@@ -611,10 +614,11 @@ function portugal_map() {
         .attr("width", 15)
         .attr("height", 15)
     svg.append('text')
+        .style("font-size", "13px")
         .attr('x', 100)
         .attr('y', 640)
         .attr('text-anchor', 'start')
-        .text("[300, 500[")
+        .text("[ 300, 500 [")
 
     svg.append("rect")
         .style("fill", "#4d4d4d")
@@ -623,6 +627,7 @@ function portugal_map() {
         .attr("width", 15)
         .attr("height", 15)
     svg.append('text')
+        .style("font-size", "13px")
         .attr('x', 100)
         .attr('y', 660)
         .attr('text-anchor', 'start')

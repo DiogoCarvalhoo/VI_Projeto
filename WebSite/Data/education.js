@@ -136,3 +136,177 @@ var stacked_bar_data = {
         {type: "Ensino Secundário", total: 393340, Masculino: 198063, Feminino: 195277},
         {type: "Ensino Superior", total: 396909, Masculino: 182178, Feminino: 214731}]
 }
+
+
+
+
+var grades_data = {
+    2008: [
+        {axis: "Biologia e Geologia", value: 53.7},
+        {axis: "Economia A", value: 64.9},
+        {axis: "Desenho A", value: 57.0},
+        {axis: "Geografia A", value: 57.1},
+        {axis: "Geometria Descritiva A", value: 53.0},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 49.9},
+        {axis: "Física e Química A", value: 47.9},
+        {axis: "Português", value: 51.8},
+        {axis: "História A", value: 55.0},
+        {axis: "Matemática A", value: 69.8}
+    ],
+    2009: [
+        {axis: "Biologia e Geologia", value: 48.9},
+        {axis: "Economia A", value: 67.6},
+        {axis: "Desenho A", value: 63.8},
+        {axis: "Geografia A", value: 56.6},
+        {axis: "Geometria Descritiva A", value: 52.3},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 56.4},
+        {axis: "Física e Química A", value: 43.5},
+        {axis: "Português", value: 58.5},
+        {axis: "História A", value: 59.3},
+        {axis: "Matemática A", value: 58.4}
+    ],
+    2010: [
+        {axis: "Biologia e Geologia", value: 49.2},
+        {axis: "Economia A", value: 67.3},
+        {axis: "Desenho A", value: 62.7},
+        {axis: "Geografia A", value: 54.8},
+        {axis: "Geometria Descritiva A", value: 44.7},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 50.4},
+        {axis: "Física e Química A", value: 42.4},
+        {axis: "Português", value: 54.8},
+        {axis: "História A", value: 59.4},
+        {axis: "Matemática A", value: 61.1}
+    ],
+    2011: [
+        {axis: "Biologia e Geologia", value: 55.2},
+        {axis: "Economia A", value: 59.8},
+        {axis: "Desenho A", value: 59.7},
+        {axis: "Geografia A", value: 56.3},
+        {axis: "Geometria Descritiva A", value: 49.8},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 56.4},
+        {axis: "Física e Química A", value: 52.4},
+        {axis: "Português", value: 48.2},
+        {axis: "História A", value: 52.3},
+        {axis: "Matemática A", value: 52.9}
+    ],
+    2012: [
+        {axis: "Biologia e Geologia", value: 49.1},
+        {axis: "Economia A", value: 58.5},
+        {axis: "Desenho A", value: 61.3},
+        {axis: "Geografia A", value: 53.3},
+        {axis: "Geometria Descritiva A", value: 53.5},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 53.0},
+        {axis: "Física e Química A", value: 40.4},
+        {axis: "Português", value: 52.0},
+        {axis: "História A", value: 59.2},
+        {axis: "Matemática A", value: 52.2}
+    ],
+    2013: [
+        {axis: "Biologia e Geologia", value: 42.1},
+        {axis: "Economia A", value: 56.7},
+        {axis: "Desenho A", value: 62.1},
+        {axis: "Geografia A", value: 49.0},
+        {axis: "Geometria Descritiva A", value: 60.9},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 49.7},
+        {axis: "Física e Química A", value: 40.5},
+        {axis: "Português", value: 49.0},
+        {axis: "História A", value: 52.9},
+        {axis: "Matemática A", value: 48.6}
+    ],
+    2014: [
+        {axis: "Biologia e Geologia", value: 55.0},
+        {axis: "Economia A", value: 51.9},
+        {axis: "Desenho A", value: 64.2},
+        {axis: "Geografia A", value: 54.3},
+        {axis: "Geometria Descritiva A", value: 58.0},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 49.8},
+        {axis: "Física e Química A", value: 45.9},
+        {axis: "Português", value: 57.9},
+        {axis: "História A", value: 49.5},
+        {axis: "Matemática A", value: 45.9}
+    ],
+    2015: [
+        {axis: "Biologia e Geologia", value: 44.7},
+        {axis: "Economia A", value: 57.3},
+        {axis: "Desenho A", value: 65.4},
+        {axis: "Geografia A", value: 56.1},
+        {axis: "Geometria Descritiva A", value: 60.9},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 61.3},
+        {axis: "Física e Química A", value: 49.3},
+        {axis: "Português", value: 54.9},
+        {axis: "História A", value: 53.3},
+        {axis: "Matemática A", value: 60.2}
+    ],
+    2016: [
+        {axis: "Biologia e Geologia", value: 50.7},
+        {axis: "Economia A", value: 55.0},
+        {axis: "Desenho A", value: 64.1},
+        {axis: "Geografia A", value: 56.7},
+        {axis: "Geometria Descritiva A", value: 57.3},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 57.2},
+        {axis: "Física e Química A", value: 55.3},
+        {axis: "Português", value: 54.0},
+        {axis: "História A", value: 47.4},
+        {axis: "Matemática A", value: 55.8}
+    ],
+    2017: [
+        {axis: "Biologia e Geologia", value: 51.3},
+        {axis: "Economia A", value: 60.3},
+        {axis: "Desenho A", value: 66.9},
+        {axis: "Geografia A", value: 55.2},
+        {axis: "Geometria Descritiva A", value: 59.4},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 50.6},
+        {axis: "Física e Química A", value: 49.6},
+        {axis: "Português", value: 55.4},
+        {axis: "História A", value: 51.6},
+        {axis: "Matemática A", value: 57.3}
+    ],
+    2018: [
+        {axis: "Biologia e Geologia", value: 54.7},
+        {axis: "Economia A", value: 56.6},
+        {axis: "Desenho A", value: 67.2},
+        {axis: "Geografia A", value: 57.8},
+        {axis: "Geometria Descritiva A", value: 57.1},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 50.9},
+        {axis: "Física e Química A", value: 52.9},
+        {axis: "Português", value: 55.3},
+        {axis: "História A", value: 47.7},
+        {axis: "Matemática A", value: 54.6}
+    ],
+    2019: [
+        {axis: "Biologia e Geologia", value: 53.4},
+        {axis: "Economia A", value: 59.9},
+        {axis: "Desenho A", value: 70.2},
+        {axis: "Geografia A", value: 51.6},
+        {axis: "Geometria Descritiva A", value: 67.6},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 54.9},
+        {axis: "Física e Química A", value: 50.2},
+        {axis: "Português", value: 59.1},
+        {axis: "História A", value: 52.1},
+        {axis: "Matemática A", value: 57.6}
+    ],
+    2020: [
+        {axis: "Biologia e Geologia", value: 70},
+        {axis: "Economia A", value: 63.1},
+        {axis: "Desenho A", value: 73.5},
+        {axis: "Geografia A", value: 67.8},
+        {axis: "Geometria Descritiva A", value: 56.2},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 47.3},
+        {axis: "Física e Química A", value: 66.2},
+        {axis: "Português", value: 59.9},
+        {axis: "História A", value: 67.1},
+        {axis: "Matemática A", value: 66.4}
+    ],
+    2021: [
+        {axis: "Biologia e Geologia", value: 59.8},
+        {axis: "Economia A", value: 61.1},
+        {axis: "Desenho A", value: 68.9},
+        {axis: "Geografia A", value: 53.6},
+        {axis: "Geometria Descritiva A", value: 61.8},
+        {axis: "Matemática Aplicada às Ciências Sociais", value: 53.5},
+        {axis: "Física e Química A", value: 48.9},
+        {axis: "Português", value: 60.2},
+        {axis: "História A", value: 64.5},
+        {axis: "Matemática A", value: 53.1}
+    ]
+}
