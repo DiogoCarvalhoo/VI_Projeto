@@ -12,6 +12,19 @@ function loadInitialPopulation() {
         Histogram Creation Section
     */
 
+    // create a tooltip
+    var histogram_Tooltip = d3.select("#container1")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("color", "black")
+        .style("position", "absolute")
+
     // Get selected year
     selected_histogram_year = document.getElementById("age_population_year_selection").value;
     
@@ -45,14 +58,14 @@ function loadInitialPopulation() {
         .on('change', function() {
         year = this.value;
         new_histogram_data = age_population_data[year];
-        updateHistogram(new_histogram_data,  histogram_xScale, histogram_xAxis, histogram_yScale, histogram_yAxis);
+        updateHistogram(new_histogram_data, histogram, histogram_xScale, histogram_xAxis, histogram_yScale, histogram_yAxis, histogram_Tooltip);
     });
 
     // Create Tiles 
     loadTitles( svg_histogram, "Número de Pessoas", "Faixa Etária", "População por Faixa Etária", "Fonte: PORDATA, 2021")
     
     // Initialize Histogram
-    updateHistogram(histogram_data, histogram_xScale, histogram_xAxis, histogram_yScale, histogram_yAxis)
+    updateHistogram(histogram_data, histogram, histogram_xScale, histogram_xAxis, histogram_yScale, histogram_yAxis, histogram_Tooltip)
 
     /*
         End of Histogram Creation Section
@@ -182,6 +195,7 @@ function loadTitles(svg, titleY, titleX, title, source) {
         .attr('y', margin / 2.4 - 15)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
+        .style('font-size', '18px')
         .text(titleY)
 
     // Title X
@@ -190,6 +204,7 @@ function loadTitles(svg, titleY, titleX, title, source) {
         .attr('x', width / 2 + margin)
         .attr('y', titleX == "Anos" ? 370 : 360)
         .attr('text-anchor', 'middle')
+        .style('font-size', '18px')
         .text(titleX)
 
     // Title
@@ -198,6 +213,7 @@ function loadTitles(svg, titleY, titleX, title, source) {
         .attr('x', width / 2 + margin)
         .attr('y', 40)
         .attr('text-anchor', 'middle')
+        .style('font-size', '28px')
         .text(title)
 
     // Source
@@ -217,16 +233,16 @@ function loadTitles(svg, titleY, titleX, title, source) {
 */
 
 // Function to update histogram
-function updateHistogram(data,  xScale, xAxis, yScale, yAxis) {
+function updateHistogram(data, histogram,  xScale, xAxis, yScale, yAxis, histogram_Tooltip) {
     margin = 80;
     height = 400 - 2 * margin;
     // X axis
     xScale.domain(data.map(function(d) { return d.type; }))
-    xAxis.transition().duration(1000).call(d3.axisBottom(xScale))
+    xAxis.transition().duration(1000).call(d3.axisBottom(xScale)).selectAll("text").style("font-size", "10px")
 
     // Add Y axis
     yScale.domain([0, d3.max(data, function(d) { return +d.value }) ]);
-    yAxis.transition().duration(1000).call(d3.axisLeft(yScale));
+    yAxis.transition().duration(1000).call(d3.axisLeft(yScale)).selectAll("text").style("font-size", "10px")
     
     // Remove old bars and grid
     histogram.selectAll("g > .grid").remove()
@@ -235,13 +251,13 @@ function updateHistogram(data,  xScale, xAxis, yScale, yAxis) {
     // Create new grid
     makeYLines = () => d3.axisLeft().scale(yScale)
     histogram.append('g')
-    .attr('class', 'grid')
-    .style('opacity', 0.5)
-    .transition()
-    .duration(1000)
-    .call(makeYLines()
-        .tickSize(-width, 0, 0)
-        .tickFormat(''))
+        .attr('class', 'grid')
+        .style('opacity', 0.5)
+        .transition()
+        .duration(1000)
+        .call(makeYLines()
+            .tickSize(-width, 0, 0)
+            .tickFormat(''))
 
     // variable u: map data to existing bars
     var u = histogram.selectAll()
@@ -255,48 +271,64 @@ function updateHistogram(data,  xScale, xAxis, yScale, yAxis) {
         .attr('class', 'bar')
         .attr('x', (g) => xScale(g.type))
         .attr('y', (g) => yScale(g.value))
-        .transition()
-        .duration(1000)
+        //.transition()
+        //.duration(1000)
         .attr('height', (g) => height - yScale(g.value))
         .attr('width', xScale.bandwidth())
 
-    u.on('mouseenter', function (actual, i) {
-        // Bar selection animation
-        d3.select(this)
-            .attr('opacity', 0)
-        d3.select(this)
-            .transition()
-            .duration(300)
-            .attr('opacity', 1)
-        
-        // Get bar height
-        const y = yScale(i.value)
+        .on('mouseenter', function (actual, i) {
+            // Bar selection animation
+            d3.select(this)
+                .attr('opacity', 0)
+            d3.select(this)
+                .transition()
+                .duration(300)
+                .attr('opacity', 1)
+            
+            // Get bar height
+            const y = yScale(i.value)
 
-        // Show line
-        histogram.append('line')
-            .attr('id', 'limit')
-            .attr('x1', 0)
-            .attr('y1', y)
-            .attr('x2', width)
-            .attr('y2', y)
+            // Show line
+            histogram.append('line')
+                .attr('id', 'limit')
+                .attr('x1', 0)
+                .attr('y1', y)
+                .attr('x2', width)
+                .attr('y2', y)
+            
+            histogram_Tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("opacity", 1)
         
-        // Show bar value
-        u.append('text')
-            .attr('class', 'value')
-            .style('fill', 'white')
-            .attr('x', (a) => xScale(a.type) + xScale.bandwidth() / 2 )
-            .attr('y', (a) => yScale(a.value) - 8)
-            .attr('text-anchor', 'middle')
-            .text((a, idx) => {
-                return a.type === i.type ? `${a.value}` : '';
             })
-    })
 
-    u.on('mouseleave', function () {
-        // Remove line and value
-        svg_histogram.selectAll('#limit').remove()
-        svg_histogram.selectAll('.value').remove()
-    })
+        .on('mousemove', function(mouse, d) {
+            
+            histogram_Tooltip
+                .html("Idade: " + d.type + "<br>Valor: " + d.value)
+                .style("left", margin/2 + d3.pointer(mouse)[0] + "px")
+                .style("top", d3.pointer(mouse)[1] + "px")
+                .style("color", "black")
+            })
+        
+        // On mouse leave, remove the line and the bar value
+        .on('mouseleave', function () {
+            d3.select(this)
+
+            histogram.selectAll('#limit').remove()
+            histogram.selectAll('.value').remove()
+
+            histogram_Tooltip
+                .style("opacity", 0)
+                .style("left", "0px")
+                .style("top", "0px")
+        
+            d3.select(this)
+                .style("stroke", "none")
+                .style("opacity", 1)
+        })
 }
 
 /*
@@ -325,7 +357,9 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
         .style("position", "absolute")
     
     chart.append("g")
-        .call(d3.axisLeft(dot_graph_yScale));
+        .call(d3.axisLeft(dot_graph_yScale))
+        .selectAll("text")
+            .style("font-size", "12px")
         
     chart.append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -333,7 +367,9 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
         .selectAll("text")
             .attr("opacity", function(d) { return d % 2 == 0 ? 1 : 0 })
             .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("font-size", "12px")
             .style("text-anchor", "end");
+            
             
     // Lines
     chart.selectAll("myline")
@@ -358,7 +394,7 @@ function initialize_dot_graph(dot_graph_data, svg, chart, dot_graph_xScale, dot_
         .attr("cx", function(d) { return dot_graph_xScale(d.year); })
         .attr("cy", dot_graph_yScale(0))
         .attr("r", "4")
-        .style("fill", "#69b3a2")
+        .style("fill", "lightskyblue")
         .attr("stroke", "none")
 
         .on('mouseenter', function (actual, i) {
@@ -523,19 +559,19 @@ function portugal_map() {
             .attr("fill", function (value, i) {
                 density = population_density[value.properties.name]
                 if (density >= 500) {
-                    return "#4d4d4d";
+                    return "#ab3022";
                 }
                 if ( 300 <= density && density < 500) {
-                    return "#737373"
+                    return "#f57f31"
                 }
                 if ( 150 <= density && density < 300) {
-                    return "#999999"
+                    return "#f5a731"
                 }
                 if ( 75 <= density && density < 150) {
-                    return "#bfbfbf"
+                    return "#f5d131"
                 }
                 if ( 75 > density ) {
-                    return "#d9d9d9"
+                    return "#f9ff80"
                 }
             })
             .attr("d", d3.geoPath()
@@ -569,7 +605,7 @@ function portugal_map() {
 
     // Legend
     svg.append("rect")
-        .style("fill", "#d9d9d9")
+        .style("fill", "#f9ff80")
         .attr("x", 80)
         .attr("y", 570)
         .attr("width", 15)
@@ -582,7 +618,7 @@ function portugal_map() {
         .text("[ 0, 75 ]")
 
     svg.append("rect")
-        .style("fill", "#bfbfbf")
+        .style("fill", "#f5d131")
         .attr("x", 80)
         .attr("y", 590)
         .attr("width", 15)
@@ -595,7 +631,7 @@ function portugal_map() {
         .text("[ 75, 150 [")
 
     svg.append("rect")
-        .style("fill", "#999999")
+        .style("fill", "#f5a731")
         .attr("x", 80)
         .attr("y", 610)
         .attr("width", 15)
@@ -608,7 +644,7 @@ function portugal_map() {
         .text("[ 150, 300 [")
 
     svg.append("rect")
-        .style("fill", "#737373")
+        .style("fill", "#f57f31")
         .attr("x", 80)
         .attr("y", 630)
         .attr("width", 15)
@@ -621,7 +657,7 @@ function portugal_map() {
         .text("[ 300, 500 [")
 
     svg.append("rect")
-        .style("fill", "#4d4d4d")
+        .style("fill", "#ab3022")
         .attr("x", 80)
         .attr("y", 650)
         .attr("width", 15)
@@ -724,6 +760,7 @@ async function updatePieChart(pie_chart_data, svg_pie_chart, pie, arc, color, pi
         })
         .attr("dy", ".50em")
         .style("text-anchor", "middle")
+        .style("font-size", "14px")
         .text(function(d) {
             if(d.data[1].percentage < 8) {
             return '';

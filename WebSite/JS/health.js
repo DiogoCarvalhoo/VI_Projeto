@@ -86,7 +86,7 @@ function loadInitialHealth() {
     // color palette = one color per subgroup
     const three_bars_color = d3.scaleOrdinal()
         .domain(subgroups)
-        .range(['#e41a1c','#377eb8','#4daf4a'])
+        .range(['#e41a1c','#ffff33','#4daf4a'])
     
     // Add event when user changes the selected year
     d3.select('#three_bars_year_selection')
@@ -144,6 +144,11 @@ function loadInitialHealth() {
         .transition()
         .duration(1000)
         .call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
+            .selectAll("text")
+            .attr("opacity", function(d) { return d % 2 == 0 ? 1 : 0 })
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("font-size", "12px")
+            .style("text-anchor", "end");
 
 
     // Add Y axis
@@ -267,6 +272,12 @@ function create_beds_per_year_graph() {
         .transition()
         .duration(1000)
         .call(d3.axisBottom(beds_year_xScale).tickFormat(d3.format("d")))
+            .selectAll("text")
+            .attr("opacity", function(d) { return d % 2 == 0 ? 1 : 0 })
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("font-size", "12px")
+            .style("text-anchor", "end");
+        
 
 
     // Add Y axis
@@ -275,13 +286,14 @@ function create_beds_per_year_graph() {
         .range([ height, 0 ])
     
     var beds_year_yAxis = beds_year_svg.append("g")
-        .call(d3.axisLeft(beds_year_yScale));
+        .call(d3.axisLeft(beds_year_yScale)).selectAll("text").style("font-size", "12px")
+        
 
     var beds_year_color = d3.scaleOrdinal()
         .domain("Hospitais Gerais",
                 "Hospitais Especializados",
                 "Centros de saúde")
-        .range(['#63f5e1','#377eb8','#4daf4a'])
+        .range(['#63f5e1','#4daf4a', '#ffff33'])
     
     types_of_institutes = ["Hospitais Gerais", "Hospitais Especializados", "Centros de Saúde"]
 
@@ -351,7 +363,7 @@ function create_beds_per_year_graph() {
     }
     
     beds_year_svg.append("rect")
-        .style("fill", beds_year_color("Hospitais Gerais"))
+        .style("fill", "#ffff33")
         .attr("x", width + 20 )
         .attr("y", 10)
         .attr("width", 15)
@@ -363,7 +375,7 @@ function create_beds_per_year_graph() {
         .text("Hospitais Gerais")
 
     beds_year_svg.append("rect")
-        .style("fill", beds_year_color("Hospitais Especializados"))
+        .style("fill", "#63f5e1")
         .attr("x", width + 20 )
         .attr("y", 40)
         .attr("width", 15)
@@ -381,7 +393,7 @@ function create_beds_per_year_graph() {
         .text("Especializados")
 
     beds_year_svg.append("rect")
-        .style("fill", beds_year_color("Centros de Saúde"))
+        .style("fill", "#4daf4a")
         .attr("x", width + 20 )
         .attr("y", 70)
         .attr("width", 15)
@@ -531,7 +543,7 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
         .text("Total")
 
     svg.append("rect")
-        .style("fill", "#377eb8")
+        .style("fill", "#ffff33")
         .attr("x", width + 20 )
         .attr("y", 40)
         .attr("width", 15)
@@ -615,7 +627,7 @@ function createMedicsBySpecialityGraph(checked_dict, medics_by_speciality_svg, x
     }
 
     yScale.domain([ (y_min == 0 ? 1 : y_min), domain_limit])
-    yAxis.transition().duration(1000).call(d3.axisLeft(yScale))
+    yAxis.transition().duration(1000).call(d3.axisLeft(yScale)).selectAll("text").style("font-size", "12px")
     
 
     for (const key of Object.keys(checked_dict)) {
@@ -720,14 +732,16 @@ function loadTitles(svg, titleY, titleX, title, source) {
         .attr('y', margin / 2.4 - 55)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
+        .style('font-size', '18px')
         .text(titleY)
 
     // Title X
     svg.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + margin)
-        .attr('y', 280)
+        .attr('y', 290)
         .attr('text-anchor', 'middle')
+        .style('font-size', '18px')
         .text(titleX)
 
     // Title
@@ -736,6 +750,7 @@ function loadTitles(svg, titleY, titleX, title, source) {
         .attr('x', width / 2 + margin)
         .attr('y', -40)
         .attr('text-anchor', 'middle')
+        .style('font-size', '24px')
         .text(title)
 
     // Source

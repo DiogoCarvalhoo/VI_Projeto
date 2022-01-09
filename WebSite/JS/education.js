@@ -46,7 +46,7 @@ function loadInitialEducation() {
     
     var stacked_bar_xAxis = stacked_bar_svg.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(stacked_bar_xScale).tickSizeOuter(0));
+        .call(d3.axisBottom(stacked_bar_xScale).tickSizeOuter(0)).selectAll("text").style("font-size", "12px");
 
     var y_max = d3.max(d3.map(stacked_bar_graph_data, function(d){return(d.total)}))
     // Add Y axis
@@ -127,7 +127,12 @@ function loadInitialEducation() {
     
     area_svg.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(area_graph_xScale).tickFormat(d3.format("d")));
+        .call(d3.axisBottom(area_graph_xScale).tickFormat(d3.format("d")))
+            .selectAll("text")
+            .attr("opacity", function(d) { return d % 2 == 0 ? 1 : 0 })
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("font-size", "12px")
+            .style("text-anchor", "end");
         
     // Add Y axis
     const area_graph_yScale = d3.scaleLinear()
@@ -135,7 +140,7 @@ function loadInitialEducation() {
         .range([ height, 0 ]);
     
     area_svg.append("g")
-        .call(d3.axisLeft(area_graph_yScale));
+        .call(d3.axisLeft(area_graph_yScale)).selectAll("text").style("font-size", "12px");
 
     create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_graph_yScale)
     loadTitles(area_svg, "Percentagem Abandono", "Ano","Taxa de Abandono Precoce de Educação e Formação" ,"Fonte: PORDATA, 2021")
@@ -291,7 +296,7 @@ function updateStackedGraph(stacked_bar_graph_data, stacked_bar_svg, xScale, ySc
     var y_max = d3.max(d3.map(stacked_bar_graph_data, function(d){return(d.total)}))
 
     yScale.domain([ 0, y_max*1.1])
-    yAxis.transition().duration(1000).call(d3.axisLeft(yScale))
+    yAxis.transition().duration(1000).call(d3.axisLeft(yScale)).selectAll("text").style("font-size", "12px")
 
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
@@ -329,8 +334,9 @@ function updateStackedGraph(stacked_bar_graph_data, stacked_bar_svg, xScale, ySc
             .on("mousemove", function(mouse, d) {
                 var subgroupName = d3.select(this.parentNode).datum().key; // This was the tricky part
                 var subgroupValue = d.data[subgroupName];
+                console.log(d)
                 stacked_bar_graph_tooltip
-                    .html("Género: " + subgroupName +"<br>Ensino: " + d.data.type  + "<br>Valor: " + subgroupValue)
+                    .html(d.data.type +"<br>Total: " + d.data.total  + "<br>" + subgroupName + ": " + subgroupValue)
                     .style("left", margin/2 + d3.pointer(mouse)[0] + 40 + "px")
                     .style("top", d3.pointer(mouse)[1] + "px")
                     .style("color", "black")
@@ -692,14 +698,16 @@ function loadTitles(svg, titleY, titleX, title, source) {
         .attr('y', margin / 2.4 - 65)
         .attr('transform', 'rotate(-90)')
         .attr('text-anchor', 'middle')
+        .style('font-size', '18px')
         .text(titleY)
 
     // Title X
     svg.append('text')
         .attr('class', 'label')
         .attr('x', width / 2 + margin)
-        .attr('y', 280)
+        .attr('y', (titleX == "Ano" ? 295 : 280) )
         .attr('text-anchor', 'middle')
+        .style('font-size', '18px')
         .text(titleX)
 
     // Title
@@ -708,6 +716,7 @@ function loadTitles(svg, titleY, titleX, title, source) {
         .attr('x', width / 2 + margin)
         .attr('y', -40)
         .attr('text-anchor', 'middle')
+        .style('font-size', '24px')
         .text(title)
 
     // Source
