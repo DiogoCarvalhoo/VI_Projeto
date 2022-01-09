@@ -1,7 +1,7 @@
 function loadInitialEducation() {
 
     // create a tooltip
-    var stacked_bar_graph_tooltip = d3.select("#container3")
+    var stacked_bar_graph_tooltip = d3.select("#container1")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -39,26 +39,26 @@ function loadInitialEducation() {
     var education_types = d3.map(stacked_bar_graph_data, function(d){return(d.type)})
 
     // Add X axis
-    var xScale = d3.scaleBand()
+    var stacked_bar_xScale = d3.scaleBand()
         .domain(education_types)
         .range([0, width])
         .padding([0.2])
     
-    var xAxis = stacked_bar_svg.append("g")
+    var stacked_bar_xAxis = stacked_bar_svg.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale).tickSizeOuter(0));
+        .call(d3.axisBottom(stacked_bar_xScale).tickSizeOuter(0));
 
     var y_max = d3.max(d3.map(stacked_bar_graph_data, function(d){return(d.total)}))
     // Add Y axis
-    var yScale = d3.scaleLinear()
+    var stacked_bar_yScale = d3.scaleLinear()
         .domain([0, y_max*1.1])
         .range([ height, 0 ]);
 
-    var yAxis = stacked_bar_svg.append("g")
-        .call(d3.axisLeft(yScale));
+    var stacked_bar_yAxis = stacked_bar_svg.append("g")
+        .call(d3.axisLeft(stacked_bar_yScale));
 
     // color palette = one color per subgroup
-    var color = d3.scaleOrdinal()
+    var stacked_bar_color = d3.scaleOrdinal()
         .domain(subgroups)
         .range(d3.schemeSet2);
 
@@ -68,14 +68,14 @@ function loadInitialEducation() {
         .on('change', function() {
         year = this.value;
         new_data = stacked_bar_data[year];
-        updateStackedGraph(new_data, stacked_bar_svg, xScale, yScale, yAxis, stacked_bar_graph_tooltip, subgroups, education_types, color)
+        updateStackedGraph(new_data, stacked_bar_svg, stacked_bar_xScale, stacked_bar_yScale, stacked_bar_yAxis, stacked_bar_graph_tooltip, subgroups, education_types, stacked_bar_color)
     });
 
-    updateStackedGraph(stacked_bar_graph_data, stacked_bar_svg, xScale, yScale, yAxis, stacked_bar_graph_tooltip, subgroups, education_types, color)
+    updateStackedGraph(stacked_bar_graph_data, stacked_bar_svg, stacked_bar_xScale, stacked_bar_yScale, stacked_bar_yAxis, stacked_bar_graph_tooltip, subgroups, education_types, stacked_bar_color)
     loadTitles(stacked_bar_svg, "Número de Alunos", "Tipo de Ensino", "Número de Alunos por nível de ensino e género", "Fonte: PORDATA, 2021")
 
     stacked_bar_svg.append("rect")
-        .style("fill", color("Masculino"))
+        .style("fill", stacked_bar_color("Masculino"))
         .attr("x", width - 10)
         .attr("y", 40)
         .attr("width", 15)
@@ -88,7 +88,7 @@ function loadInitialEducation() {
 
     
     stacked_bar_svg.append("rect")
-        .style("fill", color("Feminino"))
+        .style("fill", stacked_bar_color("Feminino"))
         .attr("x", width -10 )
         .attr("y", 70)
         .attr("width", 15)
@@ -98,8 +98,132 @@ function loadInitialEducation() {
         .attr('y', 80)
         .attr('text-anchor', 'start')
         .text("Feminino")
+
+
+
+
+    
+    
+
+    // create a tooltip
+    var area_graph_tooltip = d3.select("#container3")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute")
+
+   
+
+    // Get the data
+    area_graph_data = area_line_data;
+
+    // set the dimensions and margins of the graph
+    margin = 80; 
+    width = document.getElementById("container3").offsetWidth - margin - margin - 150;
+    height = 400 - margin - margin;
+
+    // append the svg object to the body of the page
+    const area_svg = d3.select("#area_graph")
+                                .attr("width", width + margin + margin)
+                                .attr("height", height + margin + margin)
+                            .append("g")
+                                .attr("transform",`translate(${margin},${margin})`);
+
+
+    // Add X axis --> it is a date format
+    const area_graph_xScale = d3.scaleLinear()
+        .range([ 0, width ])
+        .domain(d3.extent(area_graph_data, d => { return d.year }));
+    
+    area_svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(area_graph_xScale).tickFormat(d3.format("d")));
+        
+    // Add Y axis
+    const area_graph_yScale = d3.scaleLinear()
+        .domain([0, (d3.max(area_graph_data, d => { return +d.Masculino }) * 1.1) ])
+        .range([ height, 0 ]);
+    
+    area_svg.append("g")
+        .call(d3.axisLeft(area_graph_yScale));
+
+    create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_graph_yScale)
+    loadTitles(area_svg, "Percentagem Abandono", "Ano","Taxa de Abandono Precoce de Educação e Formação" ,"Fonte: PORDATA, 2021")
+
+
+    area_svg.append("rect")
+        .style("fill", "#adcdff")
+        .attr("x", width)
+        .attr("y", 40)
+        .attr("width", 15)
+        .attr("height", 15)
+    area_svg.append('text')
+        .attr('x', width + 20)
+        .attr('y', 50)
+        .attr('text-anchor', 'start')
+        .text("Masculino")
+
+    
+    area_svg.append("rect")
+        .style("fill", "#bdfcce")
+        .attr("x", width )
+        .attr("y", 70)
+        .attr("width", 15)
+        .attr("height", 15)
+    area_svg.append('text')
+        .attr('x', width + 20)
+        .attr('y', 80)
+        .attr('text-anchor', 'start')
+        .text("Feminino")
+
 }
 
+
+
+
+
+function create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_graph_yScale) {
+    // Add the area
+    area_svg.append("path")
+        .datum(area_graph_data)
+        .attr("fill", "#adcdff")
+        .attr("d", d3.area()
+            .x(d => area_graph_xScale(d.year))
+            .y0(area_graph_yScale(0))
+            .y1(d => area_graph_yScale(d.Masculino))
+            ) 
+
+    // Add the area
+    area_svg.append("path")
+        .datum(area_graph_data)
+        .attr("fill", "#bdfcce")
+        .attr("d", d3.area()
+            .x(d => area_graph_xScale(d.year))
+            .y0(area_graph_yScale(0))
+            .y1(d => area_graph_yScale(d.Feminino))
+            ) 
+    
+    // Add Total Line
+    area_svg.append("path")
+        .datum(area_graph_data)
+        .transition()
+        .duration(1500)
+        .attr("class", "graphLine")
+        .attr("fill", "none")
+        .attr("stroke", "black")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x(function(d) { return area_graph_xScale(d.year) })
+            .y(function(d) { return area_graph_yScale(d.Total) })
+            
+            )
+    
+}
 
 
 
@@ -151,8 +275,8 @@ function updateStackedGraph(stacked_bar_graph_data, stacked_bar_svg, xScale, ySc
                 var subgroupValue = d.data[subgroupName];
                 stacked_bar_graph_tooltip
                     .html("Género: " + subgroupName +"<br>Ensino: " + d.data.type  + "<br>Valor: " + subgroupValue)
-                    .style("left", margin/2 + d3.pointer(mouse)[0] + 60 + "px")
-                    .style("top", d3.pointer(mouse)[1] - 480 + "px")
+                    .style("left", margin/2 + d3.pointer(mouse)[0] + 40 + "px")
+                    .style("top", d3.pointer(mouse)[1] + "px")
                     .style("color", "black")
             })
 

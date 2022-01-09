@@ -136,3 +136,54 @@ var stacked_bar_data = {
         {type: "Ensino Secundário", total: 393340, Masculino: 198063, Feminino: 195277},
         {type: "Ensino Superior", total: 396909, Masculino: 182178, Feminino: 214731}]
 }
+
+
+
+var area_line_data = 
+    [
+/*
+    {year: "1992", group: "Total", value: 50.0},
+    {year: "1992", group: "Masculino", value: 56.2},
+    {year: "1992", group: "Feminino", value: 44.2},
+    {year: "1993", group: "Total", value: 46.7},
+    {year: "1993", group: "Masculino", value: 52.9},
+    {year: "1993", group: "Feminino", value: 40.7},
+    {year: "1994", group: "Total", value: 44.3},
+    {year: "1994", group: "Masculino", value: 49.4},
+    {year: "1994", group: "Feminino", value: 39.2},
+    {year: "1995", group: "Total", value: 41.3},
+    {year: "1995", group: "Masculino", value: 47.1},
+    {year: "1995", group: "Feminino", value: 35.5}
+*/
+    
+    {year: 1992, Total: 50.0, Masculino: 56.2, Feminino: 44.2},
+    {year: 1993, Total: 46.7, Masculino: 52.9, Feminino: 40.7},
+    {year: 1994, Total: 44.3, Masculino: 49.4, Feminino: 39.2},
+    {year: 1995, Total: 41.3, Masculino: 47.1, Feminino: 35.5},
+    {year: 1996, Total: 40.1, Masculino: 45.6, Feminino: 34.4},
+    {year: 1997, Total: 40.6, Masculino: 46.8, Feminino: 34.4},
+    {year: 1998, Total: 46.8, Masculino: 52.5, Feminino: 41.1},
+    {year: 1999, Total: 44.8, Masculino: 51.0, Feminino: 38.7},
+    {year: 2000, Total: 43.6, Masculino: 50.7, Feminino: 36.4},
+    {year: 2001, Total: 44.3, Masculino: 51.6, Feminino: 36.9},
+    {year: 2002, Total: 45.0, Masculino: 52.7, Feminino: 37.3},
+    {year: 2003, Total: 41.2, Masculino: 48.7, Feminino: 33.6},
+    {year: 2004, Total: 39.3, Masculino: 47.6, Feminino: 30.9},
+    {year: 2005, Total: 38.3, Masculino: 46.2, Feminino: 30.2},
+    {year: 2006, Total: 38.5, Masculino: 46.1, Feminino: 30.7},
+    {year: 2007, Total: 36.5, Masculino: 42.8, Feminino: 30.0},
+    {year: 2008, Total: 34.9, Masculino: 41.4, Feminino: 28.2},
+    {year: 2009, Total: 30.9, Masculino: 35.8, Feminino: 25.8},
+    {year: 2010, Total: 28.3, Masculino: 32.4, Feminino: 24.0},
+    {year: 2011, Total: 23.0, Masculino: 28.1, Feminino: 17.7},
+    {year: 2012, Total: 20.5, Masculino: 26.9, Feminino: 14.0},
+    {year: 2013, Total: 18.9, Masculino: 23.4, Feminino: 14.3},
+    {year: 2014, Total: 17.4, Masculino: 20.7, Feminino: 14.1},
+    {year: 2015, Total: 13.7, Masculino: 16.4, Feminino: 11.0},
+    {year: 2016, Total: 14.0, Masculino: 17.4, Feminino: 10.5},
+    {year: 2017, Total: 12.6, Masculino: 15.3, Feminino: 9.7},
+    {year: 2018, Total: 11.8, Masculino: 14.7, Feminino: 8.7},
+    {year: 2019, Total: 10.6, Masculino: 13.7, Feminino: 7.4},
+    {year: 2020, Total: 8.9, Masculino: 12.6, Feminino: 5.1}
+    
+    ]
