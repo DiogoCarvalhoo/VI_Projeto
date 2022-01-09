@@ -313,7 +313,7 @@ function create_beds_per_year_graph() {
         .style("fill", beds_year_color(types_of_institutes[index]))
         .attr("stroke", "none")
 
-        .on('mouseenter', function (actual, i) {
+        beds_year_circle_groups.on('mouseenter', function (actual, i) {
             d3.select(this)
                 .attr('opacity', 0)
                 
@@ -330,7 +330,7 @@ function create_beds_per_year_graph() {
         
             })
 
-        .on('mousemove', function(mouse, d) {
+        beds_year_circle_groups.on('mousemove', function(mouse, d) {
             beds_year_tooltip
                 .html("Ano: " + d.year + "<br>Valor: " + d.value)
                 .style("left", margin/2 + d3.pointer(mouse)[0] + 40 + "px")
