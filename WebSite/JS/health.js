@@ -28,6 +28,18 @@ function loadInitialHealth() {
         Consultas, Internamentos, Urgencias Three Bar chart
     */
     // set the dimensions and margins of the graph
+    // create a tooltip
+    var tooltip_three_bar = d3.select("#container2")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute")
+
     margin = 80; 
     width = document.getElementById("container2").offsetWidth - margin - margin - 60;
     height = 400 - margin - margin;
@@ -93,10 +105,10 @@ function loadInitialHealth() {
         .on('change', function() {
         year = this.value;
         new_data = three_bar_data[year];
-        update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, three_bars_yAxis, xSubgroup, three_bars_color, new_data)
+        update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, three_bars_yAxis, xSubgroup, three_bars_color, new_data, tooltip_three_bar)
     });
     
-    update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, three_bars_yAxis, xSubgroup, three_bars_color, data)
+    update_tree_bar_graph(three_bar_svg, three_bars_xScale, three_bars_yScale, three_bars_yAxis, xSubgroup, three_bars_color, data, tooltip_three_bar)
     loadTitles(three_bar_svg, "Número de ocorrências", "", "Consultas, Internamentos e Urgências", "Fonte: PORDATA, 2021")
     /*
         End of Consultas, Internamentos, Urgencias Three Bar chart
@@ -409,7 +421,7 @@ function create_beds_per_year_graph() {
 
 
 
-function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, data) {
+function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, data, tooltip_three_bar) {
     
     var t = textures.lines()
         .orientation("3/8")
@@ -466,35 +478,37 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
                     .attr('x1', 0)
                     .attr('y1', y)
                     .attr('x2', width - 140 - margin)
-                    .attr('y2', y)
-                
-                // Show bar value
-                svg.append('text')
-                    .attr('class', 'value')
-                    .style('fill', 'white')
-                    .attr('x', (a) => {return xScale(i.group) + xSubgroup(i.key) + xSubgroup.bandwidth() / 2 })
-                    .attr('y', (a) => y - 8)
-                    .attr('text-anchor', 'middle')
-                    .text((a, idx) => {
-                        return i.value;
-                    })
+                    .attr('y2', y)   
+            }
+            tooltip_three_bar
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+        })
+        .on('mousemove', function(mouse, d) {
+            if (d.value !== -1) {
+                tooltip_three_bar
+                    .html("Valor: " + d.value)
+                    .style("left", xScale(d.group) + d3.pointer(mouse)[0] + 30 + "px")
+                    .style("top", d3.pointer(mouse)[1] + 50 + "px")
+                    .style("color", "black")
             } else {
-                // Show bar value
-                svg.append('text')
-                    .attr('class', 'value')
-                    .style('fill', 'white')
-                    .attr('x', (a) => {return xScale(i.group) + xSubgroup(i.key) + xSubgroup.bandwidth() / 2 })
-                    .attr('y', (a) => -8 )
-                    .attr('text-anchor', 'middle')
-                    .text((a, idx) => {
-                        return "Não disponivel";
-                    })
+                tooltip_three_bar
+                    .html("Valor: Não Disponível")
+                    .style("left", xScale(d.group) + d3.pointer(mouse)[0] + 30 + "px")
+                    .style("top", d3.pointer(mouse)[1] + 50 + "px")
+                    .style("color", "black")
             }
         })
         .on('mouseleave', function () {
             // Remove line and value
             svg.selectAll('#limit').remove()
-            svg.selectAll('.value').remove()
+            d3.select(this)
+                    .style("stroke", "none")
+            tooltip_three_bar
+                .style("opacity", 0)
+                .style("left", "0px")
+                .style("top", "0px")
         })
         .attr("x", d => xSubgroup(d.key))
         .attr("y", d => { 

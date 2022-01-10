@@ -170,7 +170,7 @@ function loadInitialEducation() {
         .text("Total")
 
     area_svg.append("rect")
-        .style("fill", "#adcdff")
+        .style("fill", "#1b9e77")
         .attr("x", width)
         .attr("y", 70)
         .attr("width", 15)
@@ -183,7 +183,7 @@ function loadInitialEducation() {
 
     
     area_svg.append("rect")
-        .style("fill", "#bdfcce")
+        .style("fill", "#d95f02")
         .attr("x", width )
         .attr("y", 100)
         .attr("width", 15)
@@ -278,7 +278,7 @@ function create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_gr
     // Add the area
     area_svg.append("path")
         .datum(area_graph_data)
-        .attr("fill", "#adcdff")
+        .attr("fill", "#1b9e77")
         .attr("d", d3.area()
             .x(d => area_graph_xScale(d.year))
             .y0(area_graph_yScale(0))
@@ -288,7 +288,7 @@ function create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_gr
     // Add the area
     area_svg.append("path")
         .datum(area_graph_data)
-        .attr("fill", "#bdfcce")
+        .attr("fill", "#d95f02")
         .attr("d", d3.area()
             .x(d => area_graph_xScale(d.year))
             .y0(area_graph_yScale(0))
@@ -362,7 +362,6 @@ function updateStackedGraph(stacked_bar_graph_data, stacked_bar_svg, xScale, ySc
             .on("mousemove", function(mouse, d) {
                 var subgroupName = d3.select(this.parentNode).datum().key; // This was the tricky part
                 var subgroupValue = d.data[subgroupName];
-                console.log(d)
                 stacked_bar_graph_tooltip
                     .html(d.data.type +"<br>Total: " + d.data.total  + "<br>" + subgroupName + ": " + subgroupValue)
                     .style("left", margin/2 + d3.pointer(mouse)[0] + 40 + "px")
