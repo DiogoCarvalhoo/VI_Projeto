@@ -477,7 +477,7 @@ function update_tree_bar_graph(svg, xScale, yScale, yAxis, xSubgroup, color, dat
                     .attr('id', 'limit')
                     .attr('x1', 0)
                     .attr('y1', y)
-                    .attr('x2', width - 140 - margin)
+                    .attr('x2', width - 200)
                     .attr('y2', y)   
             }
             tooltip_three_bar

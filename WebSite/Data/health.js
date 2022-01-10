@@ -541,35 +541,35 @@ var three_bar_data = {
         {group: "Urgências", total: 7204, hospitais: 5914, centros_de_saude: 1289}],
     2013: [
         {group: "Consultas", total:-1, hospitais:11669, centros_de_saude:-1},
-        {group: "Internamentos", total:-1, hospitais:881.9, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:882, centros_de_saude:-1},
         {group: "Urgências", total:-1, hospitais:5966, centros_de_saude:-1}],
     2014: [
         {group: "Consultas", total:-1, hospitais:11840, centros_de_saude:-1},
-        {group: "Internamentos", total:-1, hospitais:860.7, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:861, centros_de_saude:-1},
         {group: "Urgências", total:-1, hospitais:5961, centros_de_saude:-1}],
     2015: [
         {group: "Consultas", total:-1, hospitais:12063, centros_de_saude:-1},
-        {group: "Internamentos", total:-1, hospitais:860.1, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:860, centros_de_saude:-1},
         {group: "Urgências", total:-1, hospitais:5886, centros_de_saude:-1}],
     2016: [
         {group: "Consultas", total:-1, hospitais:12109, centros_de_saude:-1},
-        {group: "Internamentos", total:-1, hospitais:860.1, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:860, centros_de_saude:-1},
         {group: "Urgências", total:-1, hospitais:6175, centros_de_saude:-1}],
     2017: [
         {group: "Consultas", total:-1, hospitais:12146, centros_de_saude:-1},
-        {group: "Internamentos", total:-1, hospitais:850.8, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:851, centros_de_saude:-1},
         {group: "Urgências", total:-1, hospitais:6081, centros_de_saude:-1}],
     2018: [
         {group: "Consultas", total:-1, hospitais:12229, centros_de_saude:-1},
-        {group: "Internamentos", total:-1, hospitais:836.6, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:837, centros_de_saude:-1},
         {group: "Urgências", total:-1, hospitais:6149, centros_de_saude:-1}],
     2019: [
         {group: "Consultas", total:-1, hospitais:12445, centros_de_saude:-1},
-        {group: "Internamentos", total:-1, hospitais:810.9, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:811, centros_de_saude:-1},
         {group: "Urgências", total:-1, hospitais:6426, centros_de_saude:-1}],
     2020: [
         {group: "Consultas", total:-1, hospitais:11311, centros_de_saude:-1},
-        {group: "Internamentos", total:-1, hospitais:695.5, centros_de_saude:-1},
+        {group: "Internamentos", total:-1, hospitais:696, centros_de_saude:-1},
         {group: "Urgências", total:-1, hospitais:4553, centros_de_saude:-1}]    
 }
 
