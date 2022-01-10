@@ -142,19 +142,42 @@ function loadInitialEducation() {
     area_svg.append("g")
         .call(d3.axisLeft(area_graph_yScale)).selectAll("text").style("font-size", "12px");
 
-    create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_graph_yScale)
+
+    // Add event when user changes the filters
+    d3.selectAll('.form-check-input')
+        .on('change', function(event) {
+            target_checked = event.currentTarget.checked
+
+            create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_graph_yScale, target_checked)
+            
+    });
+
+    create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_graph_yScale, true)
     loadTitles(area_svg, "Percentagem Abandono", "Ano","Taxa de Abandono Precoce de Educação e Formação" ,"Fonte: PORDATA, 2021")
 
+
+
+    area_svg.append("rect")
+        .style("fill", "#ffff33")
+        .attr("x", width)
+        .attr("y", 46)
+        .attr("width", 15)
+        .attr("height", 2)
+    area_svg.append('text')
+        .attr('x', width + 20)
+        .attr('y', 50)
+        .attr('text-anchor', 'start')
+        .text("Total")
 
     area_svg.append("rect")
         .style("fill", "#adcdff")
         .attr("x", width)
-        .attr("y", 40)
+        .attr("y", 70)
         .attr("width", 15)
         .attr("height", 15)
     area_svg.append('text')
         .attr('x', width + 20)
-        .attr('y', 50)
+        .attr('y', 80)
         .attr('text-anchor', 'start')
         .text("Masculino")
 
@@ -162,12 +185,12 @@ function loadInitialEducation() {
     area_svg.append("rect")
         .style("fill", "#bdfcce")
         .attr("x", width )
-        .attr("y", 70)
+        .attr("y", 100)
         .attr("width", 15)
         .attr("height", 15)
     area_svg.append('text')
         .attr('x', width + 20)
-        .attr('y', 80)
+        .attr('y', 110)
         .attr('text-anchor', 'start')
         .text("Feminino")
 
@@ -248,7 +271,10 @@ function loadInitialEducation() {
 
 
 
-function create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_graph_yScale) {
+function create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_graph_yScale, totalFlag) {
+
+    area_svg.selectAll("path").remove()
+
     // Add the area
     area_svg.append("path")
         .datum(area_graph_data)
@@ -269,20 +295,22 @@ function create_area_graph(area_graph_data, area_svg, area_graph_xScale, area_gr
             .y1(d => area_graph_yScale(d.Feminino))
             ) 
     
-    // Add Total Line
-    area_svg.append("path")
-        .datum(area_graph_data)
-        .transition()
-        .duration(1500)
-        .attr("class", "graphLine")
-        .attr("fill", "none")
-        .attr("stroke", "black")
-        .attr("stroke-width", 1.5)
-        .attr("d", d3.line()
-            .x(function(d) { return area_graph_xScale(d.year) })
-            .y(function(d) { return area_graph_yScale(d.Total) })
-            
-            )
+    if (totalFlag) {
+        // Add Total Line
+        area_svg.append("path")
+            .datum(area_graph_data)
+            .transition()
+            .duration(1500)
+            .attr("class", "graphLine")
+            .attr("fill", "none")
+            .attr("stroke", "#ffff33")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function(d) { return area_graph_xScale(d.year) })
+                .y(function(d) { return area_graph_yScale(d.Total) })
+                
+                )
+    }
     
 }
 

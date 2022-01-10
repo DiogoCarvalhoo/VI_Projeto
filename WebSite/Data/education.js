@@ -62,7 +62,7 @@ var stacked_bar_data = {
         {type: "Ensino Superior", total: 380937, Masculino: 168884, Feminino: 212053}],
     2006: [
         {type: "Pré-Escola", total: 262002, Masculino: 133860, Feminino: 128142},
-        {type: "Ensino Básico", total: 1145234, Masculino: 59457, Feminino: 550777},
+        {type: "Ensino Básico", total: 1145234, Masculino: 594457, Feminino: 550777},
         {type: "Ensino Secundário", total: 347400, Masculino: 162825, Feminino: 184575},
         {type: "Ensino Superior", total: 367312, Masculino: 164520, Feminino: 202792}],
     2007: [

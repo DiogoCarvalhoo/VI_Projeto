@@ -172,7 +172,7 @@ function loadInitialHealth() {
         .range(['#63f5e1','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#053d3f','#999999', 'lightyellow', 'lightpink'])
     
 
-    // Add event when user changes the selected year
+    // Add event when user changes the filters
     d3.selectAll('.form-check-input')
         .on('change', function(event) {
             target_id = event.currentTarget.id
